@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_parser.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:25:14 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/19 12:52:28 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:39:13 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,53 @@ enum e_error_type
 	WRONG_PIPE_OUT,
 	WRONG_REDIR
 };
+# ifndef TEST
+#  define TEST_CASE ""
+#  define EXPECTED {NULL}
+#  define E_COUNT 1
+# elif TEST == 11
+#  define TEST_CASE "ec ho\"  'Hello  \"World'  x "
+#  define EXPECTED {"ec", "ho  'Hello  World'",  "x", NULL}
+#  define E_COUNT 4
+# elif TEST == 12
+#  define TEST_CASE "\"'\"''\"'\""
+#  define EXPECTED {"'", "", "'", NULL}
+#  define E_COUNT 4
+# elif TEST == 13
+#  define TEST_CASE "a\"'123'456\""
+#  define EXPECTED {"a'123'456", NULL}
+#  define E_COUNT 2
+# elif TEST == 14
+#  define TEST_CASE "\"'123'456\""
+#  define EXPECTED {"'123'456", NULL}
+#  define E_COUNT 2
+# elif TEST == 15
+#  define TEST_CASE "\"'\""
+#  define EXPECTED {"'", NULL}
+#  define E_COUNT 2
+# elif TEST == 16
+#  define TEST_CASE "''"
+#  define EXPECTED {"", NULL}
+#  define E_COUNT 2
+# elif TEST == 17
+#  define TEST_CASE "\"\""
+#  define EXPECTED {"", NULL}
+#  define E_COUNT 2
+# elif TEST == 18
+#  define TEST_CASE "'\"'"
+#  define EXPECTED {"\"", NULL}
+#  define E_COUNT 2
+# elif TEST == 19
+#  define TEST_CASE "''\"'\""
+#  define EXPECTED {"'", NULL}
+#  define E_COUNT 2
+# elif TEST == 20
+#  define TEST_CASE "\"no clue of ''what other test   \"to do'"
+#  define EXPECTED {"no clue of ''what other test   to", "do'", NULL}
+#  define E_COUNT 3
+# endif
+# define LEAKS_LINE(test_case) "parse_line(\"" #test_case "\")"
+
 
 void	run_leaks(const char *test_name);
 void	ft_free_results(t_instruction **result);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JFikents <JFikents@student.42Heilbronn.de> +#+  +:+       +#+        */
+/*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:45:26 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/19 14:16:31 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:36:03 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	main(void)
 {
 	t_instruction	*result;
 	int				error;
-	const char		*expected[3] = {"Hello  World", NULL};
+	const char		*expected[2] = {"Hello  World", NULL};
 	const char		*input = "echo \"Hello  World\"";
 	const char		*leaks_line = "parse_line(\"echo \"Hello  World\"\")";
 
@@ -104,7 +104,7 @@ int	main(void)
 {
 	t_instruction	*result;
 	int				error;
-	const char		*expected[3] = {"Hello' World", NULL};
+	const char		*expected[2] = {"Hello' World", NULL};
 	const char		*input = "echo \"Hello' World\"";
 	const char		*leaks_line = "parse_line(\"echo \"Hello' World\"\")";
 

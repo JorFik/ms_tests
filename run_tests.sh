@@ -48,11 +48,11 @@ function run_parser_test_1
 
 function run_parser_test_2
 {
-	for TEST_NUMBER in {6..10};
+	for TEST_NUMBER in {6..20};
 	do
-		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES tests/src/test_parser_2.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT
+		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES tests/src/test_parser_2.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT 2>> tests/logs/result_parser.log
 		if [[ ! -x a.out ]]; then
-			echo -e "$BOLD_RED Failed compilation for test $TEST_NUMBER$DEFAULT"
+			# echo -e "$BOLD_RED Failed compilation for test $TEST_NUMBER$DEFAULT"
 			echo -e "\tFailed compilation for test $TEST_NUMBER" >> tests/logs/result_parser.log
 			continue
 		fi
@@ -63,7 +63,7 @@ function run_parser_test_2
 		echo >> tests/logs/result_parser.log
 		$RM a.out
 	done
-	if [[ $1 -ge 6 && $1 -le 10 ]]; then
+	if [[ $1 -ge 6 && $1 -le 20 ]]; then
 		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES tests/src/test_parser_2.c -DTEST=$1 $MANUALLY_ADDED_LIBFT
 		echo -e "$BOLD_YELLOW Test $1 ready for debug$DEFAULT"
 	fi
