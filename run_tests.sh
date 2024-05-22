@@ -23,9 +23,9 @@ PARSER_FILES="src/parser/parser.c src/parser/ft_create_tokens.c\
 	src/parser/create_tokens_utilities.c src/parser/ft_tokenize_pipe.c\
 	tests/src/unit_tests_utils.c"
 
-function run_parser_test_1
+function run_parser_test
 {
-	for TEST_NUMBER in {1..5};
+	for TEST_NUMBER in {1..20};
 	do
 		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES tests/src/test_parser.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT
 		if [[ ! -x a.out ]]; then
@@ -40,31 +40,8 @@ function run_parser_test_1
 		echo >> tests/logs/result_parser.log
 		$RM a.out
 	done
-	if [[ $1 -ge 1 && $1 -le 5 ]]; then
+	if [[ $1 -ge 1 && $1 -le 20 ]]; then
 		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES tests/src/test_parser.c -DTEST=$1 $MANUALLY_ADDED_LIBFT
-		echo -e "$BOLD_YELLOW Test $1 ready for debug$DEFAULT"
-	fi
-}
-
-function run_parser_test_2
-{
-	for TEST_NUMBER in {6..20};
-	do
-		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES tests/src/test_parser_2.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT 2>> tests/logs/result_parser.log
-		if [[ ! -x a.out ]]; then
-			# echo -e "$BOLD_RED Failed compilation for test $TEST_NUMBER$DEFAULT"
-			echo -e "\tFailed compilation for test $TEST_NUMBER" >> tests/logs/result_parser.log
-			continue
-		fi
-		./a.out >> tests/logs/result_parser.log
-		if [[ "$(uname)" == "Linux" ]]; then
-			run_valgrind parser $TEST_NUMBER
-		fi
-		echo >> tests/logs/result_parser.log
-		$RM a.out
-	done
-	if [[ $1 -ge 6 && $1 -le 20 ]]; then
-		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES tests/src/test_parser_2.c -DTEST=$1 $MANUALLY_ADDED_LIBFT
 		echo -e "$BOLD_YELLOW Test $1 ready for debug$DEFAULT"
 	fi
 }
@@ -92,15 +69,14 @@ if [[ $1 != "SOURCE" ]]; then
 	run_builtin_test
 	make -s lib/libft/libft.a
 	echo -e "====\t\t\t\t$(date +%d\ %b\ %Y\ @\ %T)\t\t\t\t====\n" > tests/logs/result_parser.log
-	run_parser_test_1
-	run_parser_test_2
-	# NEXT TESTS TO BE ADDED HERE
-		# echo 1&&echo 2
-		#	EXPECTED: 1\n2
-		# echo "1&&"echo 2
-		#	EXPECTED: 1&&echo 2
+	run_parser_test
 	echo -e "====\t\t\t\t\tEND of the log\t\t\t\t\t====" >> tests/logs/result_parser.log
 	feedback
 	$RM a.out
 	make -s fclean_test
 fi
+	# NEXT TESTS TO BE ADDED HERE
+		# echo 1&&echo 2
+		#	EXPECTED: 1\n2
+		# echo "1&&"echo 2
+		#	EXPECTED: 1&&echo 2

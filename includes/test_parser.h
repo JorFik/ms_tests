@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:25:14 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/21 19:39:13 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:40:15 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,46 @@ enum e_error_type
 #  define TEST_CASE ""
 #  define EXPECTED {NULL}
 #  define E_COUNT 1
+# elif TEST == 1
+#  define TEST_CASE ""
+#  define EXPECTED {NULL}
+#  define E_COUNT 1
+# elif TEST == 2
+#  define TEST_CASE NULL
+#  define EXPECTED {NULL}
+#  define E_COUNT 1
+# elif TEST == 3
+#  define TEST_CASE "echo Hello World"
+#  define EXPECTED {"echo", "Hello", "World", NULL}
+#  define E_COUNT 4
+# elif TEST == 4
+#  define TEST_CASE "echo \"Hello  World\""
+#  define EXPECTED {"echo", "Hello  World", NULL}
+#  define E_COUNT 3
+# elif TEST == 5
+#  define TEST_CASE "echo \"Hello' World\""
+#  define EXPECTED {"echo", "Hello' World", NULL}
+#  define E_COUNT 3
+# elif TEST == 6
+#  define TEST_CASE "echo \"Hello\" World\""
+#  define EXPECTED {"echo", "Hello", "World\"", NULL}
+#  define E_COUNT 4
+# elif TEST == 7 
+#  define TEST_CASE "echo Hello\" World"
+#  define EXPECTED {"echo", "Hello\"", "World", NULL}
+#  define E_COUNT 4
+# elif TEST == 8
+#  define TEST_CASE "echo \"Hello\"World"
+#  define EXPECTED {"echo", "HelloWorld", NULL}
+#  define E_COUNT 3
+# elif TEST == 9
+#  define TEST_CASE "echo Hello\"World\"       "
+#  define EXPECTED {"echo", "HelloWorld", NULL}
+#  define E_COUNT 3
+# elif TEST == 10
+#  define TEST_CASE "echo              Hello\"World\"'stuck'        "
+#  define EXPECTED {"echo", "HelloWorldstuck", NULL}
+#  define E_COUNT 3
 # elif TEST == 11
 #  define TEST_CASE "ec ho\"  'Hello  \"World'  x "
 #  define EXPECTED {"ec", "ho  'Hello  World'",  "x", NULL}
