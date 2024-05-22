@@ -19,8 +19,8 @@ if [[ "$(uname)" == "Linux" ]]; then
 fi
 
 
-PARSER_FILES="src/parser/parser.c src/parser/ft_create_tokens.c\
-	src/parser/create_tokens_utilities.c src/parser/ft_tokenize_pipe.c\
+PARSER_FILES="src/parser/parser.c src/parser/lexer.c\
+	src/parser/parser_utils.c src/parser/ft_tokenize_pipe.c\
 	tests/src/unit_tests_utils.c"
 
 function run_parser_test
@@ -49,7 +49,7 @@ function run_parser_test
 function run_builtin_test
 {
 	make -s builtin_test 2> tests/logs/minishell_builtins_results.log 1> /dev/null
-	if [[ ! -x builtin_test ]] 2> /dev/null ; then
+	if [[ ! -x builtin_test ]] ; then
 		echo -e "$BOLD_RED Failed compilation for builtin_test$DEFAULT"
 		echo -e "$YELLOW\tFor more information check tests/logs/minishell_builtins_results.log$DEFAULT"
 		exit 1
@@ -73,7 +73,7 @@ if [[ $1 != "SOURCE" ]]; then
 	echo -e "===============\t\t\t\t\tEND of the log\t\t\t\t\t===============" >> tests/logs/result_parser.log
 	feedback
 	$RM a.out
-	make -s fclean_test
+	make -s fclean_test > /dev/null
 fi
 	# NEXT TESTS TO BE ADDED HERE
 		# echo 1&&echo 2
