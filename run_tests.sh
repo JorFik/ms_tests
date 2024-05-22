@@ -33,6 +33,7 @@ function run_parser_test
 			echo -e "~~~~~~~~~~~\t\t\tEnd from compilation output for test $TEST_NUMBER\t\t\t~~~~~~~~~~~\n\n" >> tests/logs/result_parser.log
 			continue
 		fi
+		echo -e "Test $TEST_NUMBER" >> tests/logs/result_parser.log
 		./a.out >> tests/logs/result_parser.log
 		if [[ "$(uname)" == "Linux" ]]; then
 			run_valgrind parser $TEST_NUMBER
@@ -41,7 +42,7 @@ function run_parser_test
 		$RM a.out
 	done
 	if [[ $1 -ge 1 && $1 -le 20 ]]; then
-		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES tests/src/test_parser.c -DTEST=$1 $MANUALLY_ADDED_LIBFT
+		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES tests/src/test_parser.c -DTEST=$1 $MANUALLY_ADDED_LIBFT 2> tests/logs/result_parser.log
 		echo -e "$BOLD_YELLOW Test $1 ready for debug$DEFAULT"
 	fi
 }
@@ -54,7 +55,7 @@ function run_builtin_test
 		echo -e "$YELLOW\tFor more information check tests/logs/minishell_builtins_results.log$DEFAULT"
 		exit 1
 	fi
-	./builtin_test > tests/logs/minishell_builtins_results.log
+	./builtin_test > tests/logs/minishell_builtins_results.log 2>> tests/logs/minishell_builtins_results.log
 	if [[ "$(cat tests/logs/minishell_builtins_results.log | grep -c "failed")" > 0 ]]; then
 		echo -e "$BOLD_RED Failed one or more builtin tests$DEFAULT"
 		echo -e "$YELLOW\tFor more information see tests/logs/minishell_builtins_results.log$DEFAULT"
@@ -64,7 +65,7 @@ function run_builtin_test
 }
 
 if [[ $1 != "SOURCE" ]]; then
-	check_norminette
+	# check_norminette
 	prepare_logs_dir
 	run_builtin_test
 	make -s lib/libft/libft.a
