@@ -27,10 +27,10 @@ function run_parser_test
 {
 	for TEST_NUMBER in {1..20};
 	do
-		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES tests/src/test_parser.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT
+		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES tests/src/test_parser.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT 2>> tests/logs/result_parser.log
 		if [[ ! -x a.out ]]; then
-			echo -e "$BOLD_RED Failed compilation for test $TEST_NUMBER$DEFAULT"
-			echo -e "\tFailed compilation for test $TEST_NUMBER" >> tests/logs/result_parser.log
+			echo -e "Failed compilation for test $TEST_NUMBER" >> tests/logs/result_parser.log
+			echo -e "~~~~~~~~~~~\t\t\tEnd from compilation output for test $TEST_NUMBER\t\t\t~~~~~~~~~~~\n\n" >> tests/logs/result_parser.log
 			continue
 		fi
 		./a.out >> tests/logs/result_parser.log
@@ -49,7 +49,7 @@ function run_parser_test
 function run_builtin_test
 {
 	make -s builtin_test 2> tests/logs/minishell_builtins_results.log 1> /dev/null
-	if [[ ! -x builtin_test ]]; then
+	if [[ ! -x builtin_test ]] 2> /dev/null ; then
 		echo -e "$BOLD_RED Failed compilation for builtin_test$DEFAULT"
 		echo -e "$YELLOW\tFor more information check tests/logs/minishell_builtins_results.log$DEFAULT"
 		exit 1
@@ -68,9 +68,9 @@ if [[ $1 != "SOURCE" ]]; then
 	prepare_logs_dir
 	run_builtin_test
 	make -s lib/libft/libft.a
-	echo -e "====\t\t\t\t$(date +%d\ %b\ %Y\ @\ %T)\t\t\t\t====\n" > tests/logs/result_parser.log
+	echo -e "===============\t\t\t\t$(date +%d\ %b\ %Y\ @\ %T)\t\t\t\t===============\n" > tests/logs/result_parser.log
 	run_parser_test
-	echo -e "====\t\t\t\t\tEND of the log\t\t\t\t\t====" >> tests/logs/result_parser.log
+	echo -e "===============\t\t\t\t\tEND of the log\t\t\t\t\t===============" >> tests/logs/result_parser.log
 	feedback
 	$RM a.out
 	make -s fclean_test

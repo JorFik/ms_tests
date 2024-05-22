@@ -40,7 +40,7 @@ function feedback
 	(echo -ne "$RED"
 	grep "Failed" tests/logs/result_parser.log
 	echo -ne "$DEFAULT") | awk '{print "\t", $0}'
-	echo -e "$CYAN Check Logs for more information$DEFAULT"
+	echo -e "$CYAN Check tests/logs/result_parser.log for more information $DEFAULT"
 };
 
 
