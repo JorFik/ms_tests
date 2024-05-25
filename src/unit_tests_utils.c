@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:03:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/22 20:04:15 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/23 19:36:16 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ void	ft_feedback(int error, t_token *result, const char **exp_str,
 	if (error == WRONG_ARGS && (result || exp_str[i]))
 		ft_printf("\tMore/Less tokens than expected\n");
 	if (error == WRONG_TYPE)
-		while (exp_types[++i] != -1 && result && result->type)
+		while (exp_types[++i] != -1 && result)
 		{
 			if (result->type != (enum e_token)exp_types[i])
 				ft_printf("\tToken[%i]: %i\n\tExpected: %i\n", i, result->type,
-					exp_str[i]);
+					exp_types[i]);
 			result = result->next;
 		}
 	if (error == NO_RESULT)
