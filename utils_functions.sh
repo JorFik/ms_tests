@@ -41,6 +41,7 @@ function feedback
 	grep "Failed" tests/logs/result_parser.log
 	echo -ne "$DEFAULT") | awk '{print "\t", $0}'
 	echo -e "$CYAN Check tests/logs/result_parser.log for more information $DEFAULT"
+	return 1
 };
 
 

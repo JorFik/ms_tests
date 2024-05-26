@@ -72,9 +72,9 @@ if [[ $1 != "SOURCE" ]]; then
 	echo -e "===============\t\t\t\t$(date +%d\ %b\ %Y\ @\ %T)\t\t\t\t===============\n" > tests/logs/result_parser.log
 	run_parser_test
 	echo -e "===============\t\t\t\t\tEND of the log\t\t\t\t\t===============" >> tests/logs/result_parser.log
-	feedback
 	$RM a.out
 	make -s fclean_test > /dev/null
+	feedback
 fi
 	# NEXT TESTS TO BE ADDED HERE
 		# echo 1&&echo 2
