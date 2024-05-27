@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:25:14 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/27 20:00:10 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/27 20:02:33 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,11 @@ enum e_error_type
 #  define TEST_CASE "echo \"hi|cat\" -e"
 #  define EXPECTED {"echo", "hi|cat", "-e", NULL}
 #  define EXP_TYPES {STRING, DOUBLE_QUOTES, STRING, -1}
+#  define E_COUNT 4
+# elif TEST == 24
+#  define TEST_CASE "echo hi\"|\"cat -e"
+#  define EXPECTED {"echo", "hi|cat", "-e", NULL}
+#  define EXP_TYPES {STRING, STRING, STRING, -1}
 #  define E_COUNT 4
 # endif
 # define LEAKS_LINE(test_case) "parse_line(\"" #test_case "\")"
