@@ -25,7 +25,7 @@ PARSER_FILES="src/parser/parser.c src/parser/lexer.c\
 
 function run_parser_test
 {
-	for TEST_NUMBER in {1..20};
+	for TEST_NUMBER in {1..22};
 	do
 		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES tests/src/test_parser.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT 2>> tests/logs/result_parser.log
 		if [[ ! -x a.out ]]; then
@@ -41,7 +41,7 @@ function run_parser_test
 		echo >> tests/logs/result_parser.log
 		$RM a.out
 	done
-	if [[ $1 -ge 1 && $1 -le 20 ]]; then
+	if [[ $1 -ge 1 && $1 -le 22 ]]; then
 		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES tests/src/test_parser.c -DTEST=$1 $MANUALLY_ADDED_LIBFT 2> tests/logs/result_parser.log
 		echo -e "$BOLD_YELLOW Test $1 ready for debug$DEFAULT"
 	fi
@@ -76,8 +76,3 @@ if [[ $1 != "SOURCE" ]]; then
 	make -s fclean_test > /dev/null
 	feedback
 fi
-	# NEXT TESTS TO BE ADDED HERE
-		# echo 1&&echo 2
-		#	EXPECTED: 1\n2
-		# echo "1&&"echo 2
-		#	EXPECTED: 1&&echo 2

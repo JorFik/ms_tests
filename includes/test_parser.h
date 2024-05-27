@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:25:14 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/26 14:19:54 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:38:56 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,16 @@ enum e_error_type
 #  define EXPECTED {"no clue of ''what other test   to", "do'", NULL}
 #  define EXP_TYPES {STRING, STRING, -1}
 #  define E_COUNT 3
+# elif TEST == 21
+#  define TEST_CASE "echo hi | cat -e"
+#  define EXPECTED {"echo", "hi", "|", "cat", "-e", NULL}
+#  define EXP_TYPES {STRING, STRING, PIPE, STRING, STRING, -1}
+#  define E_COUNT 6
+# elif TEST == 22
+#  define TEST_CASE "echo hi|cat -e"
+#  define EXPECTED {"echo", "hi", "|", "cat", "-e", NULL}
+#  define EXP_TYPES {STRING, STRING, PIPE, STRING, STRING, -1}
+#  define E_COUNT 6
 # endif
 # define LEAKS_LINE(test_case) "parse_line(\"" #test_case "\")"
 
