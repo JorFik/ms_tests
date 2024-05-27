@@ -55,7 +55,7 @@ function run_builtin_test
 		echo -e "$YELLOW\tFor more information check tests/logs/minishell_builtins_results.log$DEFAULT"
 		exit 1
 	fi
-	./builtin_test 2>&1 > tests/logs/minishell_builtins_results.log
+	./builtin_test > tests/logs/minishell_builtins_results.log 2>&1
 	if [[ "$(cat tests/logs/minishell_builtins_results.log | grep -c "failed")" > 0 ]]; then
 		echo -e "$BOLD_RED Failed one or more builtin tests$DEFAULT"
 		echo -e "$YELLOW\tFor more information see tests/logs/minishell_builtins_results.log$DEFAULT"
