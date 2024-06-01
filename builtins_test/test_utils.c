@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:28:50 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/21 13:14:26 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:09:30 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	print_feedback(char *test, char *output, char *expected)
 		return ((void) ft_printf(GREEN"%s success\n"DEFAULT, test));
 	ft_printf(RED"%s failed\n", test);
 	ft_printf("Output:\t\t%s", output);
-	if (!ft_strchr(output, '\n'))
+	if (!output || !ft_strchr(output, '\n'))
 		ft_putchar_fd('\n', 1);
 	ft_printf("Expected:\t%s\n\n"DEFAULT, expected);
 }
@@ -67,6 +67,8 @@ char	*get_test_input(int fd)
 	char	*dollar_sign_limiter;
 
 	test_input = get_next_line(fd);
+	if (!test_input)
+		return (NULL);
 	line = NULL;
 	dollar_sign_limiter = ft_strchr(test_input, '$');
 	while (dollar_sign_limiter == NULL)
@@ -88,7 +90,7 @@ void	compile_minishell(void)
 	if (pid == -1)
 		exit(EXIT_FAILURE);
 	if (!pid)
-		ft_execve((char *[]){check_for_cmd("make"), "-s", "re", "COLOR=0",
+		ft_execve((char *[]){check_for_cmd("make"), "-s", "minishell_builtins", "COLOR=0",
 			NULL}, NULL, NULL);
 	waitpid(pid, NULL, 0);
 }
