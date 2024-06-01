@@ -6,20 +6,19 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 08:42:53 by tunsal            #+#    #+#             */
-/*   Updated: 2024/06/01 17:12:53 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/01 18:45:18 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	init_environ(char **input)
+static int	init_environ(void)
 {
 	extern char	**environ;
 	extern int	errno;
 	int			env_c;
 	char		**new_env;
 
-	*input = NULL;
 	errno = 0;
 	env_c = 0;
 	while (environ[env_c])
@@ -45,6 +44,10 @@ static char	*get_input(void)
 	char	*input;
 
 	prompt = get_prompt();
+	if (prompt == NULL)
+		prompt = ft_strdup("minishell$ ");
+	if (prompt == NULL)
+		exit_error("minishell: Error allocating memory: malloc", EXIT_FAILURE);
 	input = readline(prompt);
 	ft_free_n_null((void **)&prompt);
 	return (input);
@@ -55,8 +58,9 @@ int	main(void)
 	char		*input;
 	extern int	errno;
 
-	if (init_environ(&input))
+	if (init_environ())
 		return (EXIT_FAILURE);
+	input = NULL;
 	set_signal_handlers();
 	while (1)
 	{
