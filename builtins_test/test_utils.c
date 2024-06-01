@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:28:50 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/01 16:09:30 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/01 18:27:10 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,15 @@ char	*get_test_input(int fd)
 void	compile_minishell(void)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid == -1)
 		exit(EXIT_FAILURE);
 	if (!pid)
-		ft_execve((char *[]){check_for_cmd("make"), "-s", "minishell_builtins", "COLOR=0",
-			NULL}, NULL, NULL);
-	waitpid(pid, NULL, 0);
+		ft_execve((char *[]){check_for_cmd("make"), "-s", "minishell_builtins",
+			"COLOR=0", NULL}, NULL, NULL);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status) && WEXITSTATUS(status))
+		exit(EXIT_FAILURE);
 }
