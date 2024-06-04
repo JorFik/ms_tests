@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:19:46 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/04 14:27:16 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:46:55 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	main(void)
 	while (i < TEST_COUNT)
 	{
 		ft_printf("\nTest %d\n", i + 1);
-		output_argvs[i] = create_argv(input_token[i]);
+		output_argvs[i] = create_argvs(input_token[i]);
 		while (input_token[i] != NULL)
 		{
 			ft_free_n_null((void **)&input_token[i]->prev);
