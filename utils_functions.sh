@@ -40,7 +40,7 @@ function feedback
 	(echo -ne "$RED"
 	grep "Failed" tests/logs/result_parser.log
 	echo -ne "$DEFAULT") | awk '{print "\t", $0}'
-	echo -e "$CYAN Check tests/logs/result_parser.log for more information $DEFAULT"
+	echo -e "$CYAN\tFor more information see tests/logs/result_parser.log$DEFAULT"
 	return 1
 };
 
@@ -60,3 +60,13 @@ function run_valgrind
 		echo -e "Leak test in $1 $2: PASS" >> tests/logs/result_parser.log
 	fi
 };
+
+function start_log
+{
+	echo -e "===============\t\t\t\t$(date +%d\ %b\ %Y\ @\ %T)\t\t\t\t===============\n" > $1
+}
+
+function end_log
+{
+	echo -e "\n================\t\t\t\tEND of the log\t\t\t\t\t================" >> $1
+}
