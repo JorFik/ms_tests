@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:19:46 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/04 16:01:43 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/04 22:10:56 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static const char	***test_cases_declaration(void)
 {
 	static const char	*case_1[2] = {"echo", NULL};
-	static const char	**test_cases[TEST_COUNT + 1] = {case_1, NULL};
+	static const char	*case_2[4] = {"echo", "Hello", "World", NULL};
+	static const char	**test_cases[TEST_COUNT + 1] = {case_1, case_2, NULL};
 
 	return (test_cases);
 }
@@ -23,7 +24,8 @@ static const char	***test_cases_declaration(void)
 static const t_token_type	**test_token_declaration(void)
 {
 	static const t_token_type	case_1[1] = {STRING};
-	static const t_token_type	*tokens[TEST_COUNT] = {case_1};
+	static const t_token_type	case_2[3] = {STRING, STRING, STRING};
+	static const t_token_type	*tokens[TEST_COUNT] = {case_1, case_2};
 
 	return (tokens);
 }
