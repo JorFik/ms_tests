@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:19:46 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/04 22:10:56 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/04 22:27:53 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ static const char	***test_cases_declaration(void)
 {
 	static const char	*case_1[2] = {"echo", NULL};
 	static const char	*case_2[4] = {"echo", "Hello", "World", NULL};
-	static const char	**test_cases[TEST_COUNT + 1] = {case_1, case_2, NULL};
+	static const char	*case_3[5] = {"echo", "Hello   World", "|", "cat",
+		NULL};
+	static const char	**test_cases[TEST_COUNT + 1] = {case_1, case_2, case_3,
+		NULL};
 
 	return (test_cases);
 }
@@ -25,7 +28,8 @@ static const t_token_type	**test_token_declaration(void)
 {
 	static const t_token_type	case_1[1] = {STRING};
 	static const t_token_type	case_2[3] = {STRING, STRING, STRING};
-	static const t_token_type	*tokens[TEST_COUNT] = {case_1, case_2};
+	static const t_token_type	case_3[4] = {STRING, STRING, PIPE, STRING};
+	static const t_token_type	*tokens[TEST_COUNT] = {case_1, case_2, case_3};
 
 	return (tokens);
 }
@@ -83,6 +87,7 @@ void	check_generated_argv(const char ***expected_argvs, char ***output_argvs)
 				return ;
 			}
 		}
+		ft_printf("\t\tTest %d passed\n", i + 1);
 	}
 	ft_printf("\tAll tests passed\n");
 }
