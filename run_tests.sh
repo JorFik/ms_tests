@@ -67,6 +67,31 @@ function run_builtin_test
 	make -s fclean_test > /dev/null
 }
 
+function run_exec_test
+{
+	TEST_EXEC="tests/e_argv_test"
+	LOGS="tests/logs/results_exec.log"
+	make -C tests 2>> $LOGS 1> /dev/null
+	for exec in $TEST_EXEC; do
+		if [[ ! -x $exec ]] ; then
+			echo -e "$BOLD_RED Failed compilation for exec_test$DEFAULT"
+			echo -e "$CYAN\tFor more information check $LOGS$DEFAULT"
+			echo >> $LOGS
+			return 1
+		fi
+	echo -e "\t~~~~~~~~~~~~\t\t\t\t$exec\t\t\t\t~~~~~~~~~~~~" >> $LOGS
+		./"$exec" >> $LOGS
+		if [[ "$(cat $LOGS | grep -c "failed")" > 0 ]]; then
+			echo -e "$BOLD_RED Failed one or more exec tests$DEFAULT"
+			echo -e "$CYAN\tFor more information see $LOGS$DEFAULT"
+		else
+			echo -e "$BOLD_GREEN All exec tests passed successfully$DEFAULT"
+		fi
+	echo -e "\n\t~~~~~~~~~~~~\t\t\tEND of $exec\t\t\t~~~~~~~~~~~~" >> $LOGS
+	done
+	make -C tests fclean 1> /dev/null
+}
+
 if [[ $1 != "SOURCE" ]]; then
 	# check_norminette
 	prepare_logs_dir

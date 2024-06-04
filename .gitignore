@@ -1,6 +1,9 @@
 # Random
 .DS_Store
 # Object files
+bin/
 *.o
 # Logs
 *.log
+# test executable
+e_argv_test
