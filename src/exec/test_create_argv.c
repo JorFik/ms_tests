@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:19:46 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/04 22:27:53 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/04 22:36:38 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static const char	***assign_test_token(t_token **input_token)
 			input_token[test_num] = input_token[test_num]->prev;
 		test_num++;
 	}
+	// TODO: check case 3 for the expected output
 	return (test_cases);
 }
 
