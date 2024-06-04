@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:19:46 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/04 14:46:55 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:01:43 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,9 @@ void	check_generated_argv(const char ***expected_argvs, char ***output_argvs)
 			}
 		}
 	}
-	ft_printf("All tests passed\n");
+	ft_printf("\tAll tests passed\n");
 }
 
-// while (input_token[i] != NULL)
-// {
-// 	ft_printf("value: %s\n", input_token[i]->value);
-// 	ft_printf("type: %d\n", input_token[i]->type);
-// 	input_token[i] = input_token[i]->next;
-// }
 int	main(void)
 {
 	int			i;
@@ -102,7 +96,6 @@ int	main(void)
 	ft_bzero(output_argvs, sizeof(output_argvs));
 	while (i < TEST_COUNT)
 	{
-		ft_printf("\nTest %d\n", i + 1);
 		output_argvs[i] = create_argvs(input_token[i]);
 		while (input_token[i] != NULL)
 		{
@@ -114,6 +107,6 @@ int	main(void)
 	check_generated_argv(expected_argvs, output_argvs);
 	i = 0;
 	while (i < TEST_COUNT && output_argvs[i] != NULL)
-		ft_free_2d_array((void ***)&output_argvs[i++], FREE_ANY_SIZE);
+		ft_free_n_null((void **)&output_argvs[i++]);
 	return (0);
 }

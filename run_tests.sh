@@ -69,25 +69,33 @@ function run_builtin_test
 
 function run_exec_test
 {
-	TEST_EXEC="tests/e_argv_test"
-	LOGS="tests/logs/results_exec.log"
-	make -C tests 2>> $LOGS 1> /dev/null
-	for exec in $TEST_EXEC; do
+	TEST_EXEC=("tests/e_argv_test")
+	LOG_PATH="tests/logs/results_exec.log"
+	make -C tests 2>> $LOG_PATH 1> /dev/null
+	for exec in "$TEST_EXEC"; do
 		if [[ ! -x $exec ]] ; then
-			echo -e "$BOLD_RED Failed compilation for exec_test$DEFAULT"
-			echo -e "$CYAN\tFor more information check $LOGS$DEFAULT"
-			echo >> $LOGS
+			echo -ne "$BOLD_RED"
+			echo "Failed compilation for exec_test"
+			echo -e "$CYAN\tFor more information check $LOG_PATH"
+			echo -ne "$DEFAULT"
+			echo >> $LOG_PATH
 			return 1
 		fi
-	echo -e "\t~~~~~~~~~~~~\t\t\t\t$exec\t\t\t\t~~~~~~~~~~~~" >> $LOGS
-		./"$exec" >> $LOGS
-		if [[ "$(cat $LOGS | grep -c "failed")" > 0 ]]; then
-			echo -e "$BOLD_RED Failed one or more exec tests$DEFAULT"
-			echo -e "$CYAN\tFor more information see $LOGS$DEFAULT"
-		else
-			echo -e "$BOLD_GREEN All exec tests passed successfully$DEFAULT"
+		echo -e "\t~~~~~~~~~~~~\t\t\t\t$exec\t\t\t\t~~~~~~~~~~~~\n" >> $LOG_PATH
+		if ! $("./"$exec >> $LOG_PATH); then
+			echo -e "\tExecution for $exec failed" >> $LOG_PATH
 		fi
-	echo -e "\n\t~~~~~~~~~~~~\t\t\tEND of $exec\t\t\t~~~~~~~~~~~~" >> $LOGS
+		if [[ "$(cat $LOG_PATH | grep -c "failed")" > 0 ]]; then
+			echo -ne "$BOLD_RED"
+			echo "Failed one or more exec tests"
+			echo -e "$CYAN\tFor more information see $LOG_PATH"
+			echo -ne "$DEFAULT"
+		else
+			echo -ne "$BOLD_GREEN"
+			echo "All exec tests passed successfully"
+			echo -ne "$DEFAULT"
+		fi
+		echo -e "\n\t~~~~~~~~~~~~\t\t\tEND of $exec\t\t\t~~~~~~~~~~~~" >> $LOG_PATH
 	done
 	make -C tests fclean 1> /dev/null
 }

@@ -45,7 +45,7 @@ all: e_argv_test
 .PHONY: all
 
 e_argv_test: $(EXEC_ARGV_TEST_OBJ) $(TESTED_EXEC_OBJ) $(EXEC_TEST_DEPS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(EXEC_ARGV_TEST_OBJ) $(TESTED_EXEC_OBJ) -o $@
+	@$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(EXEC_ARGV_TEST_OBJ) $(TESTED_EXEC_OBJ) -o $@
 
 clean:
 	@$(RM) bin/*
