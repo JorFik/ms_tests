@@ -25,6 +25,7 @@ PARSER_FILES="src/parser/parser.c src/parser/lexer.c\
 
 function run_parser_test
 {
+	make -s lib/libft/libft.a
 	for TEST_NUMBER in {1..26};
 	do
 		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES tests/src/test_parser.c -DTEST=$TEST_NUMBER $MANUALLY_ADDED_LIBFT 2>> tests/logs/result_parser.log
@@ -45,6 +46,7 @@ function run_parser_test
 		$CC $CFLAGS $INCLUDES $LIBRARIES $PARSER_FILES tests/src/test_parser.c -DTEST=$1 $MANUALLY_ADDED_LIBFT 2> tests/logs/result_parser.log
 		echo -e "$BOLD_YELLOW Test $1 ready for debug$DEFAULT"
 	fi
+	feedback
 }
 
 function run_builtin_test
@@ -53,7 +55,7 @@ function run_builtin_test
 	if [[ ! -x builtin_test ]] ; then
 		echo -e "$BOLD_RED Failed compilation for builtin_test$DEFAULT"
 		echo -e "$YELLOW\tFor more information check tests/logs/minishell_builtins_results.log$DEFAULT"
-		exit 1
+		return 1
 	fi
 	./builtin_test > tests/logs/minishell_builtins_results.log
 	if [[ "$(cat tests/logs/minishell_builtins_results.log | grep -c "failed")" > 0 ]]; then
@@ -62,17 +64,17 @@ function run_builtin_test
 	else
 		echo -e "$BOLD_GREEN All builtin tests passed successfully$DEFAULT"
 	fi
+	make -s fclean_test > /dev/null
 }
 
 if [[ $1 != "SOURCE" ]]; then
 	# check_norminette
 	prepare_logs_dir
 	run_builtin_test
-	make -s lib/libft/libft.a
-	echo -e "===============\t\t\t\t$(date +%d\ %b\ %Y\ @\ %T)\t\t\t\t===============\n" > tests/logs/result_parser.log
+	start_log tests/logs/result_parser.log
 	run_parser_test
-	echo -e "===============\t\t\t\t\tEND of the log\t\t\t\t\t===============" >> tests/logs/result_parser.log
-	$RM a.out
-	make -s fclean_test > /dev/null
-	feedback
+	end_log tests/logs/result_parser.log
+	start_log tests/logs/results_exec.log
+	run_exec_test
+	end_log tests/logs/results_exec.log
 fi
