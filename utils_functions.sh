@@ -10,8 +10,8 @@ ITALIC_YELLOW="\033[3;33m"
 RED="\033[0;31m"
 YELLOW="\033[0;33m"
 GREEN="\033[0;32m"
-CYAN="\033[34m"
-DEFAULT="\033[0m"
+CYAN="\033[0;34m"
+DEFAULT="\033[0;0m"
 
 function prepare_logs_dir
 {
@@ -47,6 +47,7 @@ function feedback
 
 function run_valgrind
 {
+	if [[ "$(uname)" == "Linux" ]]; then
 	LEAKS=$(valgrind --leak-check=full ./a.out 2>&1 | grep "ERROR SUMMARY:" | awk '{print $4}')
 
 	rm -rf tests/logs/valgrind_$1_$2.log
@@ -59,6 +60,7 @@ function run_valgrind
 	else
 		echo -e "Leak test in $1 $2: PASS" >> tests/logs/result_parser.log
 	fi
+	fi
 };
 
 function start_log
@@ -69,4 +71,38 @@ function start_log
 function end_log
 {
 	echo -e "\n================\t\t\t\tEND of the log\t\t\t\t\t================" >> $1
+}
+
+function check_compilation
+{
+	local LOG_PATH=$2
+	local EXECUTABLE=$1
+
+	if [[ ! -x $EXECUTABLE ]] ; then
+		echo -ne "$BOLD_RED"
+		echo "Failed compilation for $EXECUTABLE"
+		echo -en "$CYAN"
+		echo -e "\tFor more information check $LOG_PATH"
+		echo -ne "$DEFAULT"
+		echo >> $LOG_PATH
+		return 1
+	fi
+	return
+}
+
+function check_log
+{
+	local LOG_PATH=$2
+	local TEST_NAME=$1
+
+	if [[ "$(cat $LOG_PATH | grep -c "failed")" > 0 ]]; then
+		echo -ne "$BOLD_RED"
+		echo "Failed one or more $TEST_NAME tests"
+		echo -e "$CYAN\tFor more information see $LOG_PATH"
+		echo -ne "$DEFAULT"
+		return 1
+	fi
+	echo -ne "$BOLD_GREEN"
+	echo "All $TEST_NAME tests passed successfully"
+	echo -ne "$DEFAULT"
 }
