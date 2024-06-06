@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 19:00:56 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/06 19:39:54 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/06 19:54:18 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	main(void)
 
 	i = -1;
 	while (++i < TEST_COUNT)
-		ft_free_2d_array((void ***)&output_array[i], FREE_ANY_SIZE);
+		ft_free_n_null((void **)&output_array[i]);
+	ft_free_n_null((void **)&output_array);
 	return (0);
 }
