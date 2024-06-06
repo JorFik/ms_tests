@@ -6,13 +6,13 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:19:46 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/06 19:37:30 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/06 19:49:21 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test_exec.h"
 
-void	check_generated_argv(const char ***expected_argvs, char ***output_argvs)
+static void	check_output(const char ***expected_argvs, char ***output_argvs)
 {
 	int	i;
 	int	j;
@@ -59,6 +59,6 @@ char	***test_transform_to_array(const char ***expected_output,
 		}
 		i++;
 	}
-	check_generated_argv(expected_output, output);
+	check_output(expected_output, output);
 	return (output);
 }
