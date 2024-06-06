@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_create_argv.c                                 :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/02 12:19:46 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/04 22:36:38 by JFikents         ###   ########.fr       */
+/*   Created: 2024/06/06 19:00:56 by JFikents          #+#    #+#             */
+/*   Updated: 2024/06/06 19:39:54 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static const t_token_type	**test_token_declaration(void)
 	return (tokens);
 }
 
-static const char	***assign_test_token(t_token **input_token)
+static const char	***create_tokens(t_token **input_token)
 {
 	const char			***test_cases = test_cases_declaration();
 	const t_token_type	**type = test_token_declaration();
@@ -60,61 +60,19 @@ static const char	***assign_test_token(t_token **input_token)
 			input_token[test_num] = input_token[test_num]->prev;
 		test_num++;
 	}
-	// TODO: check case 3 for the expected output
 	return (test_cases);
-}
-
-void	check_generated_argv(const char ***expected_argvs, char ***output_argvs)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (++i < TEST_COUNT)
-	{
-		j = -1;
-		while (expected_argvs[i][++j] != NULL)
-		{
-			if (output_argvs[i] == NULL
-				|| ft_strncmp(expected_argvs[i][j], output_argvs[i][j],
-					ft_strlen(expected_argvs[i][j]) + 1) != 0)
-			{
-				ft_printf("Test %d failed\n", i + 1);
-				ft_printf("Expected: %s\n", expected_argvs[i][j]);
-				if (output_argvs[i] == NULL)
-					ft_printf("Output is NULL\n");
-				else
-					ft_printf("Output: %s\n", output_argvs[i][j]);
-				return ;
-			}
-		}
-		ft_printf("\t\tTest %d passed\n", i + 1);
-	}
-	ft_printf("\tAll tests passed\n");
 }
 
 int	main(void)
 {
-	int			i;
-	t_token		*input_token[TEST_COUNT];
-	const char	***expected_argvs = assign_test_token(input_token);
-	char		**output_argvs[TEST_COUNT + 1];
+	t_token	*in_token[TEST_COUNT];
+	char	***output_array;
+	int		i;
 
-	i = 0;
-	ft_bzero(output_argvs, sizeof(output_argvs));
-	while (i < TEST_COUNT)
-	{
-		output_argvs[i] = create_argvs(input_token[i]);
-		while (input_token[i] != NULL)
-		{
-			ft_free_n_null((void **)&input_token[i]->prev);
-			input_token[i] = input_token[i]->next;
-		}
-		i++;
-	}
-	check_generated_argv(expected_argvs, output_argvs);
-	i = 0;
-	while (i < TEST_COUNT && output_argvs[i] != NULL)
-		ft_free_n_null((void **)&output_argvs[i++]);
+	output_array = test_transform_to_array(create_tokens(in_token), in_token);
+
+	i = -1;
+	while (++i < TEST_COUNT)
+		ft_free_2d_array((void ***)&output_array[i], FREE_ANY_SIZE);
 	return (0);
 }
