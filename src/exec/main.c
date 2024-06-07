@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 19:00:56 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/06 19:54:18 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/07 17:16:56 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,46 +34,49 @@ static const t_token_type	**test_token_declaration(void)
 	return (tokens);
 }
 
-static const char	***create_tokens(t_token **input_token)
+static const t_token	**create_tokens(void)
 {
+	static t_token		*tokens[TEST_COUNT];
 	const char			***test_cases = test_cases_declaration();
 	const t_token_type	**type = test_token_declaration();
 	int					test_num;
 	int					argc;
 
-	test_num = 0;
-	while (test_num < TEST_COUNT)
+	test_num = -1;
+	while (++test_num < TEST_COUNT)
 	{
-		input_token[test_num] = ft_calloc(1, sizeof(t_token));
+		tokens[test_num] = ft_calloc(1, sizeof(t_token));
 		argc = -1;
 		while (test_cases[test_num][++argc] != NULL)
 		{
-			input_token[test_num]->value = (char *)test_cases[test_num][argc];
-			input_token[test_num]->type = type[test_num][argc];
-			input_token[test_num]->next = ft_calloc(1, sizeof(t_token));
-			input_token[test_num]->next->prev = input_token[test_num];
-			input_token[test_num] = input_token[test_num]->next;
+			tokens[test_num]->value = (char *)test_cases[test_num][argc];
+			tokens[test_num]->type = type[test_num][argc];
+			tokens[test_num]->next = ft_calloc(1, sizeof(t_token));
+			tokens[test_num]->next->prev = tokens[test_num];
+			tokens[test_num] = tokens[test_num]->next;
 		}
-		input_token[test_num] = input_token[test_num]->prev;
-		ft_free_n_null((void **)&input_token[test_num]->next);
-		while (input_token[test_num]->prev != NULL)
-			input_token[test_num] = input_token[test_num]->prev;
-		test_num++;
+		tokens[test_num] = tokens[test_num]->prev;
+		ft_free_n_null((void **)&tokens[test_num]->next);
+		while (tokens[test_num]->prev != NULL)
+			tokens[test_num] = tokens[test_num]->prev;
 	}
-	return (test_cases);
+	return ((const t_token **)tokens);
 }
 
 int	main(void)
 {
-	t_token	*in_token[TEST_COUNT];
-	char	***output_array;
-	int		i;
+	const t_token	**in_token = create_tokens();
+	const char		***expected_output = test_cases_declaration();
+	char			***array_output;
+	int				i;
+	// t_cmd			**cmd_output;
 
-	output_array = test_transform_to_array(create_tokens(in_token), in_token);
-
+	// test_divide_tokens(in_token);
+	array_output = test_transform_to_array(expected_output,
+			(t_token **)in_token);
 	i = -1;
 	while (++i < TEST_COUNT)
-		ft_free_n_null((void **)&output_array[i]);
-	ft_free_n_null((void **)&output_array);
+		ft_free_n_null((void **)&array_output[i]);
+	ft_free_n_null((void **)&array_output);
 	return (0);
 }
