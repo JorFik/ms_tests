@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:51:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/06 19:32:35 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/08 13:54:37 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,12 @@
 
 # define TEST_COUNT 3
 
-char	**transform_to_array(t_token *token);
-char	***test_transform_to_array(const char ***expected_argvs,
-			t_token **input_token);
+char				**transform_to_array(t_token *token);
+char				***test_transform_to_array(const char ***expected_argvs,
+						t_token **input_token);
+const t_token_type	**test_token_declaration(void);
+const char			***test_cases_declaration(void);
+t_token				*create_token_as_next(t_token *token, const char *value,
+						t_token_type type);
 
 #endif

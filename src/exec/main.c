@@ -6,13 +6,13 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 19:00:56 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/07 17:16:56 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/08 14:03:43 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test_exec.h"
 
-static const char	***test_cases_declaration(void)
+const char	***test_cases_declaration(void)
 {
 	static const char	*case_1[2] = {"echo", NULL};
 	static const char	*case_2[4] = {"echo", "Hello", "World", NULL};
@@ -24,7 +24,7 @@ static const char	***test_cases_declaration(void)
 	return (test_cases);
 }
 
-static const t_token_type	**test_token_declaration(void)
+const t_token_type	**test_token_declaration(void)
 {
 	static const t_token_type	case_1[1] = {STRING};
 	static const t_token_type	case_2[3] = {STRING, STRING, STRING};
@@ -46,17 +46,14 @@ static const t_token	**create_tokens(void)
 	while (++test_num < TEST_COUNT)
 	{
 		tokens[test_num] = ft_calloc(1, sizeof(t_token));
-		argc = -1;
+		argc = 0;
+		tokens[test_num]->value = (char *)test_cases[test_num][argc];
+		tokens[test_num]->type = type[test_num][argc];
 		while (test_cases[test_num][++argc] != NULL)
 		{
-			tokens[test_num]->value = (char *)test_cases[test_num][argc];
-			tokens[test_num]->type = type[test_num][argc];
-			tokens[test_num]->next = ft_calloc(1, sizeof(t_token));
-			tokens[test_num]->next->prev = tokens[test_num];
-			tokens[test_num] = tokens[test_num]->next;
+			tokens[test_num] = create_token_as_next(tokens[test_num],
+					test_cases[test_num][argc], type[test_num][argc]);
 		}
-		tokens[test_num] = tokens[test_num]->prev;
-		ft_free_n_null((void **)&tokens[test_num]->next);
 		while (tokens[test_num]->prev != NULL)
 			tokens[test_num] = tokens[test_num]->prev;
 	}
@@ -67,11 +64,11 @@ int	main(void)
 {
 	const t_token	**in_token = create_tokens();
 	const char		***expected_output = test_cases_declaration();
+	// t_cmd			**cmd_output;
 	char			***array_output;
 	int				i;
-	// t_cmd			**cmd_output;
 
-	// test_divide_tokens(in_token);
+	// cmd_output = test_divide_tokens(in_token);
 	array_output = test_transform_to_array(expected_output,
 			(t_token **)in_token);
 	i = -1;
