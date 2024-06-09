@@ -6,13 +6,13 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 13:44:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/08 15:56:56 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/09 13:59:59 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test_exec.h"
 
-t_token	*create_token_as_next(t_token *token, const char *value,
+t_token	*create_next_token(t_token *token, const char *value,
 		t_token_type type)
 {
 	if (token == NULL)
