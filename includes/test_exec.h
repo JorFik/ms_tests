@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:51:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/11 19:26:28 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/11 21:01:54 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ enum	e_flags_check_pipe
 	PIPING_IN
 };
 
+// Tested functions
 char				**transform_to_array(t_token *token);
+t_cmd				*divide_tokens(t_token *token);
+
+// Test transform to array
 char				***test_transform_to_array(const char ***expected_argvs,
 						t_token **input_token);
 const t_token_type	**declare_test_token_type(void);

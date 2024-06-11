@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 13:33:15 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/11 19:48:22 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/11 21:03:07 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_cmd	**test_divide_tokens(const t_token **input_token)
 
 	test_num = -1;
 	while (++test_num < TEST_COUNT)
-		cmd[test_num] = divide_tokens(input_token[test_num]);
+		cmd[test_num] = divide_tokens((t_token *)input_token[test_num]);
 	if (check_cmd(cmd))
 		return (NULL);
 	return ((t_cmd **)cmd);
