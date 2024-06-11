@@ -62,6 +62,8 @@ function run_builtin_test
 	check_compilation $EXEC $LOG_PATH
 	if [[ $? -ne 0 ]] ; then
 		ERRNO=$(($ERRNO+1))
+		echo -e "$CYAN\tFor more information check $LOG_PATH"
+		echo -ne "$DEFAULT"
 		return 1
 	fi
 	if ! $("./"$EXEC > $LOG_PATH 2>> $LOG_PATH); then
@@ -82,6 +84,7 @@ function run_exec_test
 		check_compilation $exec $LOG_PATH
 		if [[ $? -ne 0 ]]; then
 			ERRNO=$(($ERRNO+1))
+			echo "Compilation failed for $exec" >> $LOG_PATH
 			continue
 		fi
 		echo -e "\t~~~~~~~~~~~~\t\t\t\t$exec\t\t\t\t~~~~~~~~~~~~\n" >> $LOG_PATH

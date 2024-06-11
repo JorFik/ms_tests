@@ -81,8 +81,6 @@ function check_compilation
 	if [[ ! -x $EXECUTABLE ]] ; then
 		echo -ne "$BOLD_RED"
 		echo "Failed compilation for $EXECUTABLE"
-		echo -en "$CYAN"
-		echo -e "\tFor more information check $LOG_PATH"
 		echo -ne "$DEFAULT"
 		echo >> $LOG_PATH
 		return 1
@@ -98,7 +96,7 @@ function check_log
 	if [[ "$(cat $LOG_PATH | grep -c "failed")" > 0 ]]; then
 		echo -ne "$BOLD_RED"
 		echo "Failed one or more $TEST_NAME tests"
-		echo -e "$CYAN\tFor more information see $LOG_PATH"
+		echo -e "$CYAN\tFor more information check $LOG_PATH"
 		echo -ne "$DEFAULT"
 		return 1
 	fi
