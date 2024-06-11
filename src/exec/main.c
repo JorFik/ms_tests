@@ -51,7 +51,7 @@ static const t_token	**create_tokens(void)
 		tokens[test_num]->type = type[test_num][argc];
 		while (test_cases[test_num][++argc] != NULL)
 		{
-			tokens[test_num] = create_token_as_next(tokens[test_num],
+			tokens[test_num] = create_next_token(tokens[test_num],
 					test_cases[test_num][argc], type[test_num][argc]);
 		}
 		while (tokens[test_num]->prev != NULL)
@@ -64,11 +64,13 @@ int	main(void)
 {
 	const t_token	**in_token = create_tokens();
 	const char		***expected_output = declare_test_strings();
-	// t_cmd			**cmd_output;
+	t_cmd			**cmd_output;
 	char			***array_output;
 	int				i;
 
-	// cmd_output = test_divide_tokens(in_token);
+	cmd_output = test_divide_tokens(in_token);
+	if (cmd_output == NULL)
+		return (1);
 	array_output = test_transform_to_array(expected_output,
 			(t_token **)in_token);
 	i = -1;

@@ -15,7 +15,8 @@ default_rule: all
 ################################################################################
 EXEC_TEST_DEPS = includes/test_exec.h
 
-_EXEC_TEST_SRC = test_transform_to_array.c main.c token_utils.c
+_EXEC_TEST_SRC = test_transform_to_array.c main.c token_utils.c\
+	test_divide_tokens.c utils_test_divide_tokens.c
 EXEC_TEST_SRC = $(addprefix src/exec/, $(_EXEC_TEST_SRC))
 
 _TESTED_EXEC_SRC = exec.c
