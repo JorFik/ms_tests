@@ -20,8 +20,8 @@
 char				**transform_to_array(t_token *token);
 char				***test_transform_to_array(const char ***expected_argvs,
 						t_token **input_token);
-const t_token_type	**test_token_declaration(void);
-const char			***test_cases_declaration(void);
+const t_token_type	**declare_test_token_type(void);
+const char			***declare_test_strings(void);
 
 // Token utils
 t_token				*create_token_head(const char *value, t_token_type type);

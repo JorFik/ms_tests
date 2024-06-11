@@ -6,13 +6,13 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 19:00:56 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/08 14:03:43 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/11 19:48:54 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test_exec.h"
 
-const char	***test_cases_declaration(void)
+const char	***declare_test_strings(void)
 {
 	static const char	*case_1[2] = {"echo", NULL};
 	static const char	*case_2[4] = {"echo", "Hello", "World", NULL};
@@ -24,7 +24,7 @@ const char	***test_cases_declaration(void)
 	return (test_cases);
 }
 
-const t_token_type	**test_token_declaration(void)
+const t_token_type	**declare_test_token_type(void)
 {
 	static const t_token_type	case_1[1] = {STRING};
 	static const t_token_type	case_2[3] = {STRING, STRING, STRING};
@@ -37,8 +37,8 @@ const t_token_type	**test_token_declaration(void)
 static const t_token	**create_tokens(void)
 {
 	static t_token		*tokens[TEST_COUNT];
-	const char			***test_cases = test_cases_declaration();
-	const t_token_type	**type = test_token_declaration();
+	const char			***test_cases = declare_test_strings();
+	const t_token_type	**type = declare_test_token_type();
 	int					test_num;
 	int					argc;
 
@@ -63,7 +63,7 @@ static const t_token	**create_tokens(void)
 int	main(void)
 {
 	const t_token	**in_token = create_tokens();
-	const char		***expected_output = test_cases_declaration();
+	const char		***expected_output = declare_test_strings();
 	// t_cmd			**cmd_output;
 	char			***array_output;
 	int				i;
