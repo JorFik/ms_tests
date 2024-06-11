@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:03:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/05/23 19:36:16 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/11 19:53:08 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,25 @@ void	ft_feedback(int error, t_token *result, const char **exp_str,
 	int	i;
 
 	i = -1;
-	if (error == WRONG_ARGS)
-		while (exp_str[++i] && result && result->content)
-		{
-			if (ft_strncmp(result->content, exp_str[i], ft_strlen(exp_str[i]) + 1))
-				ft_printf("\tToken[%i]: %s\n\tExpected: %s\n", i,
-					result->content, exp_str[i]);
-			result = result->next;
-		}
+	while (error == WRONG_ARGS && exp_str[++i] && result && result->value)
+	{
+		if (ft_strncmp(result->value, exp_str[i], ft_strlen(exp_str[i]) + 1))
+			ft_printf("\tToken[%i]: %s\n\tExpected: %s\n", i,
+				result->value, exp_str[i]);
+		result = result->next;
+	}
 	if (error == WRONG_ARGS && (result || exp_str[i]))
 		ft_printf("\tMore/Less tokens than expected\n");
 	if (error == WRONG_TYPE)
+	{
 		while (exp_types[++i] != -1 && result)
 		{
-			if (result->type != (enum e_token)exp_types[i])
+			if (result->type != (t_token_type)exp_types[i])
 				ft_printf("\tToken[%i]: %i\n\tExpected: %i\n", i, result->type,
 					exp_types[i]);
 			result = result->next;
 		}
+	}
 	if (error == NO_RESULT)
 		ft_printf("Output: NULL\nExpected: t_token\n");
 }
@@ -76,7 +77,7 @@ int	ft_check_output(t_token *token, const char **expect, const int *exp_types)
 		return (NO_RESULT);
 	while (expect[++i] && token)
 	{
-		if (ft_strncmp(token->content, expect[i], ft_strlen(expect[i]) + 1))
+		if (ft_strncmp(token->value, expect[i], ft_strlen(expect[i]) + 1))
 			return (WRONG_ARGS);
 		token = token->next;
 	}
@@ -86,7 +87,7 @@ int	ft_check_output(t_token *token, const char **expect, const int *exp_types)
 	i = -1;
 	while (exp_types[++i] != -1 && token)
 	{
-		if (token->type != (enum e_token)exp_types[i])
+		if (token->type != (t_token_type)exp_types[i])
 			return (WRONG_TYPE);
 		token = token->next;
 	}
