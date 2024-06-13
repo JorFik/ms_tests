@@ -8,26 +8,22 @@ LDFLAGS = -L$(LIBFT_PATH) -lft
 
 HEADERS_DIR = includes/ ../includes/ $(LIBFT_PATH)/includes/
 INCLUDES = $(addprefix -I, $(HEADERS_DIR))
-default_rule: all
-.PHONY: default_rule
+all: exec_test
+.PHONY: all
 ################################################################################
 # Source files
 ################################################################################
 EXEC_TEST_DEPS = includes/test_exec.h
 
-_EXEC_TEST_SRC = test_transform_to_array.c main.c token_utils.c\
+_EXEC_TEST_SRC = test_transform_to_array.c main.c test_token_utils.c\
 	test_divide_tokens.c utils_test_divide_tokens.c
 EXEC_TEST_SRC = $(addprefix src/exec/, $(_EXEC_TEST_SRC))
-
-_TESTED_EXEC_SRC = exec.c
-TESTED_EXEC_SRC = $(addprefix ../src/exec/, $(_TESTED_EXEC_SRC))
 
 
 ################################################################################
 # Creating binaries
 ################################################################################
-EXEC_ARGV_TEST_OBJ = $(EXEC_TEST_SRC:src/exec/%.c=bin/exec/%.o)
-TESTED_EXEC_OBJ = $(TESTED_EXEC_SRC:../src/exec/%.c=bin/exec/%.o)
+EXEC_TEST_OBJ = $(EXEC_TEST_SRC:src/exec/%.c=bin/exec/%.o)
 
 bin/exec:
 	@mkdir -p bin/exec
@@ -35,27 +31,41 @@ bin/exec:
 bin/exec%.o : src/exec/%.c | bin/exec
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-bin/exec/%.o : ../src/exec/%.c | bin/exec
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+# Tested binaries
+_TESTED_EXEC_OBJ += exec.o token_utils.o pipe_utils.o
+TESTED_EXEC_OBJ = $(addprefix exec/, $(_TESTED_EXEC_OBJ))
+
+_TESTED_UTILS_OBJ = exit_error.o
+TESTED_UTILS_OBJ = $(addprefix utils/, $(_TESTED_UTILS_OBJ))
+
+_TESTED_PARSER_OBJ = parser_utils.o
+TESTED_PARSER_OBJ = $(addprefix parser/, $(_TESTED_PARSER_OBJ))
+
+_TESTED_OBJ = $(TESTED_EXEC_OBJ) $(TESTED_UTILS_OBJ) $(TESTED_PARSER_OBJ)
+TESTED_OBJ = $(addprefix bin/, $(_TESTED_OBJ))
+TESTED_OBJ_PATH += $(addprefix ../, $(TESTED_OBJ))
+
+$(TESTED_OBJ_PATH):
+	@$(MAKE) -C ../ $(TESTED_OBJ) > /dev/null
 
 
 ################################################################################
 # Rules
 ################################################################################
-all: e_argv_test
-.PHONY: all
 
-e_argv_test: $(EXEC_ARGV_TEST_OBJ) $(TESTED_EXEC_OBJ) $(EXEC_TEST_DEPS)
-	@$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(EXEC_ARGV_TEST_OBJ) $(TESTED_EXEC_OBJ) -o $@
+exec_test: $(EXEC_TEST_OBJ) $(TESTED_OBJ_PATH) $(EXEC_TEST_DEPS)
+	@$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(EXEC_TEST_OBJ) $(TESTED_OBJ_PATH) -o $@
 
 clean:
 	@$(RM) bin/*
 .PHONY: clean
 
 fclean: clean
-	@$(RM) e_argv_test
+	@$(RM) exec_test
 .PHONY: fclean
 
+re: fclean all
+.PHONY: re
 
 ################################################################################
 # Debug

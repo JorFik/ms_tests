@@ -76,7 +76,7 @@ function run_builtin_test
 
 function run_exec_test
 {
-	local TEST_EXEC=("tests/e_argv_test")
+	local TEST_EXEC=("tests/exec_test")
 	local LOG_PATH="tests/logs/results_exec.log"
 
 	make -C tests 2>> $LOG_PATH 1> /dev/null
