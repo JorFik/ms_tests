@@ -46,18 +46,22 @@ TESTED_OBJ = $(addprefix bin/, $(_TESTED_OBJ))
 TESTED_OBJ_PATH += $(addprefix ../, $(TESTED_OBJ))
 
 $(TESTED_OBJ_PATH):
-	@$(MAKE) -C ../ $(TESTED_OBJ) > /dev/null
+	@$(MAKE) -C ../ $(DEBUG_FLAG) $(TESTED_OBJ) > /dev/null
 
 
 ################################################################################
 # Rules
 ################################################################################
 
-exec_test: $(EXEC_TEST_OBJ) $(TESTED_OBJ_PATH) $(EXEC_TEST_DEPS)
+$(LIBFT_PATH)/libft.a:
+	@$(MAKE) -C ../ $(subst ../,,$(LIBFT_PATH))/libft.a > /dev/null
+
+exec_test: $(EXEC_TEST_OBJ) $(TESTED_OBJ_PATH) $(EXEC_TEST_DEPS) $(LIBFT_PATH)/libft.a
 	@$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(EXEC_TEST_OBJ) $(TESTED_OBJ_PATH) -o $@
 
 clean:
 	@$(RM) bin/*
+	@$(RM) ../bin/*
 .PHONY: clean
 
 fclean: clean
@@ -73,4 +77,5 @@ re: fclean all
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
 CFLAGS += -g3
+DEBUG_FLAG= DEBUG=1
 endif
