@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 13:33:15 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/11 21:03:07 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:44:38 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int	check_tokens(const t_token *token, const t_token *expected,
 	const t_token	*expected_head = expected;
 	int				len;
 
+	test_num++;
 	while (token != NULL || expected != NULL)
 	{
 		len = ft_strlen(expected->value) + 1;
@@ -39,6 +40,7 @@ static int	check_tokens(const t_token *token, const t_token *expected,
 
 static int	check_pipe(t_cmd *cmd, int test_num, int out_or_in)
 {
+	test_num++;
 	if (out_or_in == PIPING_OUT && cmd->pipe[PIPE_FD_WRITE] <= 2)
 	{
 		ft_printf("Test case %d failed\nCmd->pipe[PIPE_FD_WRITE]: %d\n",
