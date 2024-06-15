@@ -88,7 +88,11 @@ function run_exec_test
 			continue
 		fi
 		echo -e "\t~~~~~~~~~~~~\t\t\t\t$exec\t\t\t\t~~~~~~~~~~~~\n" >> $LOG_PATH
-		if ! $("./"$exec >> $LOG_PATH); then
+		$("./"$exec >> $LOG_PATH)
+		exit_status=$?
+		if [[ $exit_status == 139 ]] ; then
+			echo -e "\tSegmentation fault in $exec failed" >> $LOG_PATH
+		elif [[ $exit_status != 0 ]] ; then
 			echo -e "\tExecution for $exec failed" >> $LOG_PATH
 		fi
 		echo -e "\n\t~~~~~~~~~~~~\t\t\tEND of $exec\t\t\t~~~~~~~~~~~~" >> $LOG_PATH
