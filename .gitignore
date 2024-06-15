@@ -6,4 +6,4 @@ bin/
 # Logs
 *.log
 # test executable
-e_argv_test
+exec_test
