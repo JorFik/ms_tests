@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:15:39 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/11 19:26:28 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 14:10:04 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ const t_cmd	**create_all_expected_cmds(void)
 	t_cmd				**cmd;
 	int					test;
 
-	cmd = ft_calloc(TEST_COUNT, sizeof(t_cmd *));
+	cmd = ft_calloc(TEST_COUNT + 1, sizeof(t_cmd *));
 	test = -1;
 	while (++test < TEST_COUNT)
 	{
