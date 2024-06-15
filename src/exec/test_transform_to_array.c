@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:19:46 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/06 19:49:21 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:06:54 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ static void	check_output(const char ***expected_argvs, char ***output_argvs)
 				|| ft_strncmp(expected_argvs[i][j], output_argvs[i][j],
 					ft_strlen(expected_argvs[i][j]) + 1) != 0)
 			{
-				ft_printf("Test %d failed\n", i + 1);
-				ft_printf("Expected: %s\n", expected_argvs[i][j]);
+				ft_printf("\t\tTest %d failed\n", i + 1);
+				ft_printf("\t\tExpected: %s\n", expected_argvs[i][j]);
 				if (output_argvs[i] == NULL)
-					ft_printf("Output is NULL\n");
+					ft_printf("\t\tOutput is NULL\n");
 				else
-					ft_printf("Output: %s\n", output_argvs[i][j]);
+					ft_printf("\t\tOutput: %s\n", output_argvs[i][j]);
 				return ;
 			}
 		}
@@ -59,6 +59,7 @@ char	***test_transform_to_array(const char ***expected_output,
 		}
 		i++;
 	}
+	ft_printf("\tTest transform to array:\n");
 	check_output(expected_output, output);
 	return (output);
 }
