@@ -6,11 +6,37 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 19:00:56 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/11 19:48:54 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 14:08:48 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test_exec.h"
+
+static int	init_environ(void)
+{
+	extern char	**environ;
+	extern int	errno;
+	int			env_var_count;
+	char		**new_env;
+
+	errno = 0;
+	env_var_count = 0;
+	while (environ[env_var_count])
+		env_var_count++;
+	new_env = ft_calloc(env_var_count + 1, sizeof(char *));
+	if (!new_env)
+		return (EXIT_FAILURE);
+	env_var_count = 0;
+	while (environ[env_var_count])
+	{
+		new_env[env_var_count] = ft_strdup(environ[env_var_count]);
+		if (!new_env[env_var_count])
+			return (ft_free_2d_array((void ***)&new_env, -1), EXIT_FAILURE);
+		env_var_count++;
+	}
+	environ = new_env;
+	return (0);
+}
 
 const char	***declare_test_strings(void)
 {
@@ -68,6 +94,11 @@ int	main(void)
 	char			***array_output;
 	int				i;
 
+	if (init_environ())
+	{
+		perror("minishell: Error initializing environment");
+		return (EXIT_FAILURE);
+	}
 	cmd_output = test_divide_tokens(in_token);
 	if (cmd_output == NULL)
 		return (1);
