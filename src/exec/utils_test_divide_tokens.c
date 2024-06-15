@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:15:39 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/15 18:20:06 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 19:52:04 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ void	free_expected_cmd(t_cmd ***cmd_output)
 			free_expected_tokens(working_cmd->strs);
 			free_expected_tokens(working_cmd->redirects);
 			argv_i = -1;
-			while (working_cmd->argv && working_cmd->argv[++argv_i] != NULL)
-				ft_free_n_null((void **)&working_cmd->argv[argv_i]);
+			ft_free_n_null((void **)&working_cmd->argv);
 			tmp = working_cmd->next;
 			ft_free_n_null((void **)&working_cmd);
 			working_cmd = tmp;
