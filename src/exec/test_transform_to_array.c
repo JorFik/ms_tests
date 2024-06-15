@@ -6,60 +6,76 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:19:46 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/15 16:06:54 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 20:09:21 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test_exec.h"
 
-static void	check_output(const char ***expected_argvs, char ***output_argvs)
+static void	print_feedback(const char *expected, const char *output, int test)
 {
-	int	i;
-	int	j;
-
-	i = -1;
-	while (++i < TEST_COUNT)
-	{
-		j = -1;
-		while (expected_argvs[i][++j] != NULL)
-		{
-			if (output_argvs[i] == NULL
-				|| ft_strncmp(expected_argvs[i][j], output_argvs[i][j],
-					ft_strlen(expected_argvs[i][j]) + 1) != 0)
-			{
-				ft_printf("\t\tTest %d failed\n", i + 1);
-				ft_printf("\t\tExpected: %s\n", expected_argvs[i][j]);
-				if (output_argvs[i] == NULL)
-					ft_printf("\t\tOutput is NULL\n");
-				else
-					ft_printf("\t\tOutput: %s\n", output_argvs[i][j]);
-				return ;
-			}
-		}
-		ft_printf("\t\tTest %d passed\n", i + 1);
-	}
-	ft_printf("\tAll tests passed\n");
+	ft_printf("\t\tTest %d failed\n", test + 1);
+	ft_printf("\t\tExpected: %s\n", expected);
+	if (output == NULL)
+		ft_printf("\t\tOutput is NULL\n");
+	else
+		ft_printf("\t\tOutput: %s\n", output);
 }
 
-char	***test_transform_to_array(const char ***expected_output,
-	t_token **in_token)
+static int	jump_pipe(t_cmd **cmd, char pipe, int *argv_i, int *i)
 {
-	int		i;
-	char	***output;
+	if (pipe == '|')
+	{
+		*cmd = (*cmd)->next;
+		*argv_i = 0;
+		(*i)++;
+		return (1);
+	}
+	return (0);
+}
+
+static int	check_output(t_cmd *cmd)
+{
+	static int	t_num = 0;
+	const char	***exp = declare_test_strings();
+	int			i;
+	int			argv_i;
+	char		*arg;
 
 	i = 0;
-	output = ft_calloc(TEST_COUNT + 1, sizeof(char **));
-	while (i < TEST_COUNT)
+	argv_i = 0;
+	while (exp[t_num][i] != NULL &&
+		(cmd->argv[argv_i] || jump_pipe(&cmd, exp[t_num][i][0], &argv_i, &i)))
 	{
-		output[i] = transform_to_array(in_token[i]);
-		while (in_token[i] != NULL)
-		{
-			ft_free_n_null((void **)&in_token[i]->prev);
-			in_token[i] = in_token[i]->next;
-		}
+		arg = cmd->argv[argv_i];
+		if (ft_strncmp(arg, exp[t_num][i], ft_strlen(exp[t_num][i]) + 1))
+			return (print_feedback(exp[t_num][i], arg, t_num), 1);
 		i++;
+		argv_i++;
 	}
+	if (exp[t_num][i] != NULL || cmd->argv[argv_i] != NULL)
+		return (print_feedback(exp[t_num][i], cmd->argv[argv_i], t_num), 1);
+	return (ft_printf("\t\tTest %d passed\n", ++t_num), 0);
+}
+
+t_cmd	**test_transform_to_array(t_cmd **cmd_input)
+{
+	int		i;
+	t_cmd	*working_cmd;
+
+	i = -1;
 	ft_printf("\tTest transform to array:\n");
-	check_output(expected_output, output);
-	return (output);
+	while (++i < TEST_COUNT)
+	{
+		working_cmd = cmd_input[i];
+		while (working_cmd != NULL)
+		{
+			working_cmd->argv = transform_to_array(working_cmd->strs);
+			working_cmd = working_cmd->next;
+		}
+		if (check_output(cmd_input[i]))
+			return (free_expected_cmd(&cmd_input), NULL);
+	}
+	ft_printf("\tAll test transform to array tests passed\n");
+	return (cmd_input);
 }

@@ -32,7 +32,7 @@ bin/exec%.o : src/exec/%.c | bin/exec
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Tested binaries
-_TESTED_EXEC_OBJ += exec.o token_utils.o pipe_utils.o
+_TESTED_EXEC_OBJ += exec.o token_utils.o pipe_utils.o exec_utils.o
 TESTED_EXEC_OBJ = $(addprefix exec/, $(_TESTED_EXEC_OBJ))
 
 _TESTED_UTILS_OBJ = exit_error.o

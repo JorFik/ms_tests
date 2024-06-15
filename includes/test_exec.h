@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:51:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/11 21:01:54 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 18:20:45 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ char				**transform_to_array(t_token *token);
 t_cmd				*divide_tokens(t_token *token);
 
 // Test transform to array
-char				***test_transform_to_array(const char ***expected_argvs,
-						t_token **input_token);
+t_cmd				**test_transform_to_array(t_cmd **cmd_input);
 const t_token_type	**declare_test_token_type(void);
 const char			***declare_test_strings(void);
 

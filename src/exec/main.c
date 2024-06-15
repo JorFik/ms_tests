@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 19:00:56 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/15 18:10:33 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 18:31:58 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ int	main(void)
 	cmd_output = test_divide_tokens(in_token);
 	if (cmd_output == NULL)
 		return (1);
-	// cmd_output = test_transform_to_array(cmd_output);
+	cmd_output = test_transform_to_array(cmd_output);
+	if (cmd_output == NULL)
+		return (1);
 	return (free_expected_cmd(&cmd_output), 0);
 }
