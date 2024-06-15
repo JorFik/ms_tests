@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 13:33:15 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/13 14:44:38 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 14:02:17 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	check_tokens(const t_token *token, const t_token *expected,
 	int				len;
 
 	test_num++;
-	while (token != NULL || expected != NULL)
+	while (token != NULL && expected != NULL)
 	{
 		len = ft_strlen(expected->value) + 1;
 		if (ft_strncmp(token->value, expected->value, len) != 0)
@@ -70,7 +70,7 @@ static int	check_cmd(t_cmd **cmd)
 	{
 		w_cmd = cmd[++i];
 		e_cmd = (t_cmd *)exp_cmd[i];
-		while (w_cmd != NULL || e_cmd != NULL)
+		while (w_cmd != NULL && e_cmd != NULL)
 		{
 			if (w_cmd->argv != NULL)
 				ft_printf("Test case %d failed\nCmd->argv isn't initialize", i);
