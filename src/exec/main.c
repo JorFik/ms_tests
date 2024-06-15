@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 19:00:56 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/15 14:08:48 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:51:04 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int	main(void)
 	const char		***expected_output = declare_test_strings();
 	t_cmd			**cmd_output;
 	char			***array_output;
-	int				i;
 
 	if (init_environ())
 	{
@@ -104,9 +103,6 @@ int	main(void)
 		return (1);
 	array_output = test_transform_to_array(expected_output,
 			(t_token **)in_token);
-	i = -1;
-	while (++i < TEST_COUNT)
-		ft_free_n_null((void **)&array_output[i]);
-	ft_free_n_null((void **)&array_output);
+	ft_free_2d_array((void ***)&array_output, TEST_COUNT);
 	return (0);
 }
