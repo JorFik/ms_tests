@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:19:46 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/15 20:09:21 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 21:32:53 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@ static void	print_feedback(const char *expected, const char *output, int test)
 		ft_printf("\t\tOutput: %s\n", output);
 }
 
-static int	jump_pipe(t_cmd **cmd, char pipe, int *argv_i, int *i)
+static int	jump_pipe(t_cmd **cmd, int *argv_i, int *i, int test_num)
 {
-	if (pipe == '|')
+	const t_token_type	**exp = declare_test_token_type();
+
+	if (exp[test_num][*i] == PIPE)
 	{
 		*cmd = (*cmd)->next;
 		*argv_i = 0;
@@ -32,6 +34,22 @@ static int	jump_pipe(t_cmd **cmd, char pipe, int *argv_i, int *i)
 		return (1);
 	}
 	return (0);
+}
+
+static int	jump_redirects(t_cmd **cmd, int *argv_i, int *i, int test_num)
+{
+	const t_token_type	**exp = declare_test_token_type();
+	int					flag;
+
+	flag = 0;
+	while (exp[test_num][*i] > STRING && exp[test_num][*i] < PIPE)
+	{
+		(*i)++;
+		flag = 1;
+	}
+	if (flag)
+		jump_pipe(cmd, argv_i, i, test_num);
+	return (flag);
 }
 
 static int	check_output(t_cmd *cmd)
@@ -45,7 +63,8 @@ static int	check_output(t_cmd *cmd)
 	i = 0;
 	argv_i = 0;
 	while (exp[t_num][i] != NULL &&
-		(cmd->argv[argv_i] || jump_pipe(&cmd, exp[t_num][i][0], &argv_i, &i)))
+		(cmd->argv[argv_i] || jump_pipe(&cmd, &argv_i, &i, t_num)
+			|| jump_redirects(&cmd, &argv_i, &i, t_num)))
 	{
 		arg = cmd->argv[argv_i];
 		if (ft_strncmp(arg, exp[t_num][i], ft_strlen(exp[t_num][i]) + 1))
