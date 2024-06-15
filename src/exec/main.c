@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 19:00:56 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/15 15:51:04 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 18:10:33 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,7 @@ static const t_token	**create_tokens(void)
 int	main(void)
 {
 	const t_token	**in_token = create_tokens();
-	const char		***expected_output = declare_test_strings();
 	t_cmd			**cmd_output;
-	char			***array_output;
 
 	if (init_environ())
 	{
@@ -101,8 +99,6 @@ int	main(void)
 	cmd_output = test_divide_tokens(in_token);
 	if (cmd_output == NULL)
 		return (1);
-	array_output = test_transform_to_array(expected_output,
-			(t_token **)in_token);
-	ft_free_2d_array((void ***)&array_output, TEST_COUNT);
-	return (0);
+	// cmd_output = test_transform_to_array(cmd_output);
+	return (free_expected_cmd(&cmd_output), 0);
 }

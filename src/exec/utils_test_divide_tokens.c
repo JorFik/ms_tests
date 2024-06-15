@@ -6,38 +6,44 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:15:39 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/15 14:10:04 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/15 18:20:06 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test_exec.h"
 
-void	free_expected_cmd(t_cmd ***expected_cmd)
+static void	free_expected_tokens(t_token *token)
 {
+	while (token != NULL)
+	{
+		ft_free_n_null((void **)&token->prev);
+		token = token->next;
+	}
+}
+
+void	free_expected_cmd(t_cmd ***cmd_output)
+{
+	t_cmd	*working_cmd;
 	t_cmd	*tmp;
 	int		i;
+	int		argv_i;
 
 	i = -1;
-	while (i != TEST_COUNT)
+	while (cmd_output[0][++i] != NULL)
 	{
-		tmp = expected_cmd[0][++i];
-		while (tmp != NULL)
+		working_cmd = cmd_output[0][i];
+		while (working_cmd != NULL)
 		{
-			while (tmp->strs != NULL)
-			{
-				ft_free_n_null((void **)&tmp->strs->prev);
-				tmp->strs = tmp->strs->next;
-			}
-			while (tmp->redirects != NULL)
-			{
-				ft_free_n_null((void **)&tmp->redirects);
-				tmp->redirects = tmp->redirects->next;
-			}
-			tmp = tmp->next;
+			free_expected_tokens(working_cmd->strs);
+			free_expected_tokens(working_cmd->redirects);
+			argv_i = -1;
+			while (working_cmd->argv && working_cmd->argv[++argv_i] != NULL)
+				ft_free_n_null((void **)&working_cmd->argv[argv_i]);
+			tmp = working_cmd->next;
+			ft_free_n_null((void **)&working_cmd);
+			working_cmd = tmp;
 		}
-		ft_free_n_null((void **)&expected_cmd[0][i]);
 	}
-	ft_free_n_null((void **)&expected_cmd[0]);
 }
 
 static t_cmd	*create_cmd_per_test(t_cmd *cmd, const char **cases,
