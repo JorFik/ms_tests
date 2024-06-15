@@ -48,6 +48,8 @@ static int	check_pipe(t_cmd *cmd, int test_num, int out_or_in)
 		ft_printf("Expected: <An open FD>\n");
 		return (1);
 	}
+	else if (cmd->pipe[PIPE_FD_WRITE] >= 2)
+		ft_close(&cmd->pipe[PIPE_FD_WRITE]);
 	if (out_or_in == PIPING_IN && cmd->pipe[PIPE_FD_READ] <= 2)
 	{
 		ft_printf("Test case %d failed\nCmd->pipe[PIPE_FD_READ]: %d\n",
@@ -55,6 +57,8 @@ static int	check_pipe(t_cmd *cmd, int test_num, int out_or_in)
 		ft_printf("Expected: <An open FD>\n");
 		return (1);
 	}
+	else if (cmd->pipe[PIPE_FD_READ] >= 2)
+		ft_close(&cmd->pipe[PIPE_FD_READ]);
 	return (0);
 }
 
