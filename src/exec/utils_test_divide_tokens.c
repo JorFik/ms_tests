@@ -6,19 +6,23 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:15:39 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/15 19:52:04 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/16 17:13:29 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test_exec.h"
 
-static void	free_expected_tokens(t_token *token)
+static void	free_expected_tokens(t_token **token)
 {
-	while (token != NULL)
+	if (*token == NULL)
+		return ;
+	while ((*token)->next != NULL)
 	{
-		ft_free_n_null((void **)&token->prev);
-		token = token->next;
+		ft_free_n_null((void **)&(*token)->prev);
+		(*token) = (*token)->next;
 	}
+	ft_free_n_null((void **)&(*token)->prev);
+	ft_free_n_null((void **)&(*token));
 }
 
 void	free_expected_cmd(t_cmd ***cmd_output)
@@ -26,7 +30,6 @@ void	free_expected_cmd(t_cmd ***cmd_output)
 	t_cmd	*working_cmd;
 	t_cmd	*tmp;
 	int		i;
-	int		argv_i;
 
 	i = -1;
 	while (cmd_output[0][++i] != NULL)
@@ -34,15 +37,20 @@ void	free_expected_cmd(t_cmd ***cmd_output)
 		working_cmd = cmd_output[0][i];
 		while (working_cmd != NULL)
 		{
-			free_expected_tokens(working_cmd->strs);
-			free_expected_tokens(working_cmd->redirects);
-			argv_i = -1;
+			free_expected_tokens(&working_cmd->strs);
+			free_expected_tokens(&working_cmd->redirects);
 			ft_free_n_null((void **)&working_cmd->argv);
 			tmp = working_cmd->next;
 			ft_free_n_null((void **)&working_cmd);
 			working_cmd = tmp;
 		}
 	}
+}
+
+static void	restart_token(t_token **token)
+{
+	while (*token != NULL && (*token)->prev != NULL)
+		*token = (*token)->prev;
 }
 
 static t_cmd	*create_cmd_per_test(t_cmd *cmd, const char **cases,
@@ -65,13 +73,13 @@ static t_cmd	*create_cmd_per_test(t_cmd *cmd, const char **cases,
 			tmp->pipe[0] = PIPING_OUT;
 			tmp->next = ft_calloc(1, sizeof(t_cmd));
 			tmp->next->pipe[0] = PIPING_IN;
+			restart_token(&tmp->strs);
+			restart_token(&tmp->redirects);
 			tmp = tmp->next;
 		}
 	}
-	while (cmd->strs && cmd->strs->prev != NULL)
-		cmd->strs = cmd->strs->prev;
-	while (cmd->redirects && cmd->redirects->prev != NULL)
-		cmd->redirects = cmd->redirects->prev;
+	restart_token(&tmp->strs);
+	restart_token(&tmp->redirects);
 	return (cmd);
 }
 
