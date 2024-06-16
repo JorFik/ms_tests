@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:51:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/15 20:50:14 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/16 16:44:57 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ enum	e_flags_check_pipe
 	PIPING_OUT = 1,
 	PIPING_IN
 };
+
+# define ARGV_ERROR "\t\tTest %d failed\nCmd->argv isn't initialize"
 
 // Tested functions
 char				**transform_to_array(t_token *token);

@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 19:00:56 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/15 21:33:11 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/16 17:50:35 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ const char	***declare_test_strings(void)
 	static const char	*case_2[4] = {"echo", "Hello", "World", NULL};
 	static const char	*case_3[5] = {"echo", "Hello   World", "|", "cat",
 		NULL};
-	static const char	*case_4[9] = {"echo", "Hello", ">test_file",
-		"2> test_file3" "|", "cat", "<< EOF", ">>test_file4", NULL};
+	static const char	*case_4[9] = {"echo", "Hello", ">test_file1",
+		"2> test_file2", "|", "cat", "<< EOF3", ">>test_file4", NULL};
 	static const char	**test_cases[TEST_COUNT + 1] = {case_1, case_2, case_3,
 		case_4, NULL};
 
