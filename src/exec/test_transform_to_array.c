@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:19:46 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/15 21:32:53 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/16 17:47:59 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ static int	check_output(t_cmd *cmd)
 
 	i = 0;
 	argv_i = 0;
-	while (exp[t_num][i] != NULL &&
-		(cmd->argv[argv_i] || jump_pipe(&cmd, &argv_i, &i, t_num)
-			|| jump_redirects(&cmd, &argv_i, &i, t_num)))
+	arg = NULL;
+	while ((cmd->argv[argv_i] != NULL || jump_pipe(&cmd, &argv_i, &i, t_num)
+			|| jump_redirects(&cmd, &argv_i, &i, t_num)) && exp[t_num][i])
 	{
 		arg = cmd->argv[argv_i];
 		if (ft_strncmp(arg, exp[t_num][i], ft_strlen(exp[t_num][i]) + 1))
