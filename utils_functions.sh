@@ -63,7 +63,7 @@ function run_valgrind
 			echo -e "\t\tLeak test failed in $TEST_NAME" >> $LOG_PATH
 			echo -e "\tCheck $VALGRIND_LOG for more information" >> $LOG_PATH
 		else
-			echo -e "Leak test in $TEST_NAME: PASS" >> $LOG_PATH
+			echo -e "\tLeak test in $TEST_NAME: PASS" >> $LOG_PATH
 		fi
 	fi
 }
