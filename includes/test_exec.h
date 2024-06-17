@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:51:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/17 14:45:45 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:59:15 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ enum	e_flags_check_pipe
 	PIPING_IN
 };
 
-# define ARGV_ERROR "\t\tTest %d failed\nCmd->argv isn't initialize"
-# define MORE_LESS_CMD "\t\tTest %d failed\n+/- t_cmd expected"
+# define ARGV_ERROR "\t\tTest %d failed\nCmd->argv isn't initialize\n"
+# define MORE_LESS_CMD "\t\tTest %d failed\n\t\t+/- t_cmd expected\n"
 
 // Tested functions
 char				**transform_to_array(t_token *token);
