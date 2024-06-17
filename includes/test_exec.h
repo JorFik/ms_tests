@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:51:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/16 18:22:45 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:45:45 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ enum	e_flags_check_pipe
 };
 
 # define ARGV_ERROR "\t\tTest %d failed\nCmd->argv isn't initialize"
+# define MORE_LESS_CMD "\t\tTest %d failed\n+/- t_cmd expected"
 
 // Tested functions
 char				**transform_to_array(t_token *token);
@@ -38,6 +39,7 @@ const char			***declare_test_strings(void);
 t_cmd				**test_divide_tokens(const t_token **input_token);
 const t_cmd			**create_all_expected_cmds(void);
 void				free_expected_cmd(t_cmd ***expected_cmd);
+void				free_cmds(t_cmd **cmd);
 
 // Token utils
 t_token				*create_token_head(const char *value, t_token_type type);

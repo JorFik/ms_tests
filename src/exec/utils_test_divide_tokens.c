@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:15:39 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/16 17:13:29 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:38:59 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	free_expected_cmd(t_cmd ***cmd_output)
 			working_cmd = tmp;
 		}
 	}
+	ft_free_n_null((void **)&cmd_output[0]);
 }
 
 static void	restart_token(t_token **token)

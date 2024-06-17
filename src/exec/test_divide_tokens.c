@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 13:33:15 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/16 16:45:38 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:46:31 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,25 @@ static int	check_cmd(t_cmd **cmd)
 			if (check_tokens(w_cmd->redirects, e_cmd->redirects, "redirects", i)
 				|| check_tokens(w_cmd->strs, e_cmd->strs, "strs", i)
 				|| check_pipe(w_cmd, i, e_cmd->pipe[0]))
-				return (1);
+				return (free_expected_cmd((t_cmd ***)&exp_cmd), 1);
 			w_cmd = w_cmd->next;
 			e_cmd = e_cmd->next;
 		}
-		if (w_cmd != NULL || e_cmd != NULL)
-			return (ft_printf("\t\tTest %d failed\n+/- t_cmd expected", i), 1);
+		if ((w_cmd != NULL || e_cmd != NULL) && ft_printf(MORE_LESS_CMD, i))
+			return (free_expected_cmd((t_cmd ***)&exp_cmd), 1);
 	}
 	return (free_expected_cmd((t_cmd ***)&exp_cmd), 0);
+}
+
+void	free_cmds(t_cmd **cmd)
+{
+	int	i;
+
+	i = -1;
+	while (++i < TEST_COUNT)
+	{
+		free_cmd(&cmd[i]);
+	}
 }
 
 t_cmd	**test_divide_tokens(const t_token **input_token)
@@ -101,7 +112,7 @@ t_cmd	**test_divide_tokens(const t_token **input_token)
 		cmd[test_num] = divide_tokens((t_token *)input_token[test_num]);
 	ft_printf("\tDivide tokens tests:\n");
 	if (check_cmd(cmd))
-		return (NULL);
+		return (free_cmds(cmd), NULL);
 	ft_printf("\tAll divide tokens tests passed\n");
 	return ((t_cmd **)cmd);
 }
