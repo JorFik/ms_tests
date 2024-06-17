@@ -16,7 +16,8 @@ all: exec_test
 EXEC_TEST_DEPS = includes/test_exec.h
 
 _EXEC_TEST_SRC = test_transform_to_array.c main.c test_token_utils.c\
-	test_divide_tokens.c utils_test_divide_tokens.c
+	test_divide_tokens.c utils_test_divide_tokens.c test_exec_utils.c\
+
 EXEC_TEST_SRC = $(addprefix src/exec/, $(_EXEC_TEST_SRC))
 
 
@@ -28,7 +29,10 @@ EXEC_TEST_OBJ = $(EXEC_TEST_SRC:src/exec/%.c=bin/exec/%.o)
 bin/exec:
 	@mkdir -p bin/exec
 
-bin/exec%.o : src/exec/%.c | bin/exec
+bin/exec%.o : src/exec/%.c  $(EXEC_TEST_DEPS) | bin/exec
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+bin/%.o : src/%.c  $(EXEC_TEST_DEPS) | bin
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Tested binaries
@@ -56,7 +60,7 @@ $(TESTED_OBJ_PATH):
 $(LIBFT_PATH)/libft.a:
 	@$(MAKE) -C ../ $(subst ../,,$(LIBFT_PATH))/libft.a > /dev/null
 
-exec_test: $(EXEC_TEST_OBJ) $(TESTED_OBJ_PATH) $(EXEC_TEST_DEPS) $(LIBFT_PATH)/libft.a
+exec_test: $(EXEC_TEST_OBJ) $(TESTED_OBJ_PATH) $(LIBFT_PATH)/libft.a
 	@$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(EXEC_TEST_OBJ) $(TESTED_OBJ_PATH) -o $@
 
 clean:

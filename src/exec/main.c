@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 19:00:56 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/16 17:50:35 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/16 18:22:52 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int	main(void)
 	const t_token	**in_token = create_tokens();
 	t_cmd			**cmd_output;
 
+	atexit(leaks);
 	if (init_environ())
 	{
 		perror("minishell: Error initializing environment");

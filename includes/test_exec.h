@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:51:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/16 16:44:57 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/16 18:22:45 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,9 @@ void				free_expected_cmd(t_cmd ***expected_cmd);
 t_token				*create_token_head(const char *value, t_token_type type);
 t_token				*create_next_token(t_token *token, const char *value,
 						t_token_type type);
+
+// Utils
+void				leaks(void);
+void				run_leaks(const char *test_name);
 
 #endif
