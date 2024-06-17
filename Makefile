@@ -61,7 +61,7 @@ $(LIBFT_PATH)/libft.a:
 	@$(MAKE) -C ../ $(subst ../,,$(LIBFT_PATH))/libft.a > /dev/null
 
 exec_test: $(EXEC_TEST_OBJ) $(TESTED_OBJ_PATH) $(LIBFT_PATH)/libft.a
-	@$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(EXEC_TEST_OBJ) $(TESTED_OBJ_PATH) -o $@
+	@$(CC) -o $@ $(EXEC_TEST_OBJ) $(TESTED_OBJ_PATH) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
 clean:
 	@$(RM) bin/*
