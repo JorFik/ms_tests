@@ -42,7 +42,7 @@ function run_parser_test
 		if ! $("./"$EXEC >> $LOG_PATH); then
 			echo -e "\tExecution for $EXEC failed" >> $LOG_PATH
 		fi
-		run_valgrind parser $TEST_NUM
+		run_valgrind a.out "parser $TEST_NUM" parser_$TEST_NUM $LOG_PATH
 		echo >> $LOG_PATH
 		$RM $EXEC
 	done
@@ -95,6 +95,7 @@ function run_exec_test
 		elif [[ $exit_status != 0 ]] ; then
 			echo -e "\tExecution for $exec failed" >> $LOG_PATH
 		fi
+		run_valgrind $exec "exec test" exec_test $LOG_PATH
 		echo -e "\n\t~~~~~~~~~~~~\t\t\tEND of $exec\t\t\t~~~~~~~~~~~~" >> $LOG_PATH
 	done
 	check_log exec $LOG_PATH

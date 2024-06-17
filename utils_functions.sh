@@ -18,7 +18,7 @@ function prepare_logs_dir
 	if [[ ! -d "tests/logs" ]]; then
 		mkdir -p tests/logs
 	fi
-};
+}
 
 function check_norminette
 {
@@ -27,7 +27,7 @@ function check_norminette
 		echo -e "$BOLD_RED Norminette error(s) detected, please fix it/them before running the pushing to vogsphere.$DEFAULT"
 		echo -e $RED && norminette | grep -E "Error:|Error!" && echo -e $DEFAULT
 	fi
-};
+}
 
 function feedback
 {
@@ -42,26 +42,31 @@ function feedback
 	echo -ne "$DEFAULT") | awk '{print "\t", $0}'
 	echo -e "$CYAN\tFor more information see tests/logs/result_parser.log$DEFAULT"
 	return 1
-};
+}
 
 
 function run_valgrind
 {
-	if [[ "$(uname)" == "Linux" ]]; then
-	LEAKS=$(valgrind --leak-check=full ./a.out 2>&1 | grep "ERROR SUMMARY:" | awk '{print $4}')
+	local EXECUTABLE=$1
+	local TEST_NAME=$2
+	local VALGRIND_LOG="tests/logs/valgrind_$3.log"
+	local LOG_PATH=$4
 
-	rm -rf tests/logs/valgrind_$1_$2.log
-	if [[ $LEAKS -ne 0 ]]; then
-		valgrind --leak-check=full ./a.out 2> tests/logs/valgrind_$1_$2.log
-		echo -e "$BOLD_RED Memory leaks detected in test $1 $2$DEFAULT"
-		echo -e "$ITALIC_YELLOW Check tests/logs/valgrind_$1_$2.log for more information$DEFAULT"
-		echo -e "\t\tFailed leak test in $1 $2" >> tests/logs/result_parser.log
-		echo -e "\tCheck tests/logs/valgrind_$1_$2.log for more information" >> tests/logs/result_parser.log
-	else
-		echo -e "Leak test in $1 $2: PASS" >> tests/logs/result_parser.log
+	if [[ "$(uname)" == "Linux" ]]
+	then
+		LEAKS=$(valgrind --leak-check=full ./$EXECUTABLE 2>&1 | grep "ERROR SUMMARY:" | awk '{print $4}')
+		if [[ $LEAKS -ne 0 ]]
+		then
+			valgrind --leak-check=full ./$EXECUTABLE 2> $VALGRIND_LOG
+			echo -e "$BOLD_RED Memory leaks detected in test $TEST_NAME$DEFAULT"
+			echo -e "$ITALIC_YELLOW Check $VALGRIND_LOG for more information$DEFAULT"
+			echo -e "\t\tLeak test failed in $TEST_NAME" >> $LOG_PATH
+			echo -e "\tCheck $VALGRIND_LOG for more information" >> $LOG_PATH
+		else
+			echo -e "Leak test in $TEST_NAME: PASS" >> $LOG_PATH
+		fi
 	fi
-	fi
-};
+}
 
 function start_log
 {
