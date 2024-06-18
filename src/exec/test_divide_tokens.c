@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 13:33:15 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/17 14:46:31 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:22:07 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	check_cmd(t_cmd **cmd)
 	int			i;
 
 	i = -1;
-	while (i != TEST_COUNT && (i++ < 0 || ft_printf("\t\tTest %d passed\n", i)))
+	while (i++ != TEST_COUNT && (i < 1 || ft_printf("\t\tTest %d passed\n", i)))
 	{
 		w_cmd = cmd[i];
 		e_cmd = (t_cmd *)exp_cmd[i];
@@ -104,10 +104,11 @@ void	free_cmds(t_cmd **cmd)
 
 t_cmd	**test_divide_tokens(const t_token **input_token)
 {
-	static t_cmd	*cmd[TEST_COUNT];
+	static t_cmd	*cmd[TEST_COUNT + 1];
 	int				test_num;
 
 	test_num = -1;
+	ft_bzero(cmd, sizeof(t_cmd *) * (TEST_COUNT + 1));
 	while (++test_num < TEST_COUNT)
 		cmd[test_num] = divide_tokens((t_token *)input_token[test_num]);
 	ft_printf("\tDivide tokens tests:\n");
