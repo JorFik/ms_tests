@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:51:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/17 14:59:15 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:06:31 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 # include "minishell.h"
 
 # define TEST_COUNT 4
+# define ARGV_ERROR "\t\tTest %d failed\n\t\tCmd->argv isn't initialize\n"
+# define MORE_LESS_CMD "\t\tTest %d failed\n\t\t+/- t_cmd expected\n"
+# define FD_ERROR "\t\tTest %d failed\n\t\tExpected fd: %d\n\t\tOutput fd: %d\n"
+# define FILE_ERROR \
+	"\t\tTest %d failed\n\t\tExpected file: %s\n\t\tOutput file: %s\n"
 
 enum	e_flags_check_pipe
 {
@@ -23,12 +28,20 @@ enum	e_flags_check_pipe
 	PIPING_IN
 };
 
-# define ARGV_ERROR "\t\tTest %d failed\nCmd->argv isn't initialize\n"
-# define MORE_LESS_CMD "\t\tTest %d failed\n\t\t+/- t_cmd expected\n"
+typedef struct s_expected_redir
+{
+	char					*file_name;
+	int						fd;
+	struct s_expected_redir	*next;
+	struct s_expected_redir	*prev;
+}	t_exp_redir;
+
 
 // Tested functions
 char				**transform_to_array(t_token *token);
 t_cmd				*divide_tokens(t_token *token);
+int					get_fd(t_cmd *cmd);
+char				*get_file_name(t_cmd *cmd);
 
 // Test transform to array
 t_cmd				**test_transform_to_array(t_cmd **cmd_input);
@@ -40,6 +53,10 @@ t_cmd				**test_divide_tokens(const t_token **input_token);
 const t_cmd			**create_all_expected_cmds(void);
 void				free_expected_cmd(t_cmd ***expected_cmd);
 void				free_cmds(t_cmd **cmd);
+
+// Test redir
+int					test_redir(t_cmd **cmd_input);
+void				free_exp_redir(t_exp_redir *exp_redir);
 
 // Token utils
 t_token				*create_token_head(const char *value, t_token_type type);

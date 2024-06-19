@@ -17,7 +17,7 @@ EXEC_TEST_DEPS = includes/test_exec.h
 
 _EXEC_TEST_SRC = test_transform_to_array.c main.c test_token_utils.c\
 	test_divide_tokens.c utils_test_divide_tokens.c test_exec_utils.c\
-
+	test_redir.c
 EXEC_TEST_SRC = $(addprefix src/exec/, $(_EXEC_TEST_SRC))
 
 
