@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:43:09 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/21 14:31:44 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/21 17:51:58 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	test_redir(t_cmd **cmd_input)
 	t_exp_redir *const	exp_redir = create_expectations(cmd_input);
 	t_token				*cmd_redir;
 	int					test_num;
-	t_cmd			*cmd_head;
+	t_cmd				*cmd_head;
 
 	if (!exp_redir)
 		return (1);
