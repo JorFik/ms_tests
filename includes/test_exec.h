@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:51:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/19 16:06:31 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:35:21 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_expected_redir
 	struct s_expected_redir	*prev;
 }	t_exp_redir;
 
-
 // Tested functions
 char				**transform_to_array(t_token *token);
 t_cmd				*divide_tokens(t_token *token);
@@ -56,12 +55,13 @@ void				free_cmds(t_cmd **cmd);
 
 // Test redir
 int					test_redir(t_cmd **cmd_input);
-void				free_exp_redir(t_exp_redir *exp_redir);
+void				free_exp_redir(t_exp_redir **exp_redir);
 
 // Token utils
 t_token				*create_token_head(const char *value, t_token_type type);
 t_token				*create_next_token(t_token *token, const char *value,
 						t_token_type type);
+void				restart_token(t_token **token);
 
 // Utils
 void				leaks(void);

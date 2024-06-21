@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:15:39 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/18 12:51:11 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:51:22 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,14 @@ void	free_expected_cmd(t_cmd ***cmd_output)
 	ft_free_n_null((void **)&cmd_output[0]);
 }
 
-static void	restart_token(t_token **token)
+void	set_cmd_pipe(t_cmd **cmd)
 {
-	while (*token != NULL && (*token)->prev != NULL)
-		*token = (*token)->prev;
+	(*cmd)->pipe[0] = PIPING_OUT;
+	(*cmd)->next = ft_calloc(1, sizeof(t_cmd));
+	(*cmd)->next->pipe[0] = PIPING_IN;
+	restart_token(&(*cmd)->strs);
+	restart_token(&(*cmd)->redirects);
+	(*cmd) = (*cmd)->next;
 }
 
 static t_cmd	*create_cmd_per_test(t_cmd *cmd, const char **cases,
@@ -68,17 +72,15 @@ static t_cmd	*create_cmd_per_test(t_cmd *cmd, const char **cases,
 		if (type[i] == STRING)
 			tmp->strs = create_next_token(tmp->strs, cases[i], type[i]);
 		else if (type[i] > STRING && type[i] < PIPE)
+		{
 			tmp->redirects = create_next_token(tmp->redirects, cases[i],
 					type[i]);
-		if (type[i] == PIPE)
-		{
-			tmp->pipe[0] = PIPING_OUT;
-			tmp->next = ft_calloc(1, sizeof(t_cmd));
-			tmp->next->pipe[0] = PIPING_IN;
-			restart_token(&tmp->strs);
-			restart_token(&tmp->redirects);
-			tmp = tmp->next;
+			i++;
+			tmp->redirects = create_next_token(tmp->redirects, cases[i],
+					type[i]);
 		}
+		if (type[i] == PIPE)
+			set_cmd_pipe(&tmp);
 	}
 	restart_token(&tmp->strs);
 	restart_token(&tmp->redirects);

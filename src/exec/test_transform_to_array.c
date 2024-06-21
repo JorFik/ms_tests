@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:19:46 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/16 17:47:59 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:16:02 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static int	jump_redirects(t_cmd **cmd, int *argv_i, int *i, int test_num)
 	flag = 0;
 	while (exp[test_num][*i] > STRING && exp[test_num][*i] < PIPE)
 	{
+		(*i)++;
 		(*i)++;
 		flag = 1;
 	}
@@ -93,7 +94,7 @@ t_cmd	**test_transform_to_array(t_cmd **cmd_input)
 			working_cmd = working_cmd->next;
 		}
 		if (check_output(cmd_input[i]))
-			return (free_expected_cmd(&cmd_input), NULL);
+			return (free_cmds(cmd_input), NULL);
 	}
 	ft_printf("\tAll test transform to array tests passed\n");
 	return (cmd_input);

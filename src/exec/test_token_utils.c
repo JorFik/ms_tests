@@ -6,29 +6,39 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 13:44:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/19 14:21:10 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:14:41 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test_exec.h"
 
-void	free_exp_redir(t_exp_redir *exp_redir)
+void	restart_token(t_token **token)
+{
+	while (*token != NULL && (*token)->prev != NULL)
+		*token = (*token)->prev;
+}
+
+void	free_exp_redir(t_exp_redir **e_redir)
 {
 	t_exp_redir	*tmp;
+	int			test_num;
 
-	if (!exp_redir)
-		return ;
-	while (exp_redir->prev)
-		exp_redir = exp_redir->prev;
-	// !This may cause a memory leak
-	//? Change to while (exp_redir) if so
-	while (exp_redir->next)
+	test_num = -1;
+	while (++test_num < TEST_COUNT)
 	{
-		tmp = exp_redir->next;
-		ft_free_n_null((void **)&exp_redir->file_name);
-		ft_free_n_null((void **)&exp_redir);
-		exp_redir = tmp;
+		tmp = &e_redir[0][test_num];
+		while (tmp->next)
+			tmp = tmp->next;
+		while (tmp->prev)
+		{
+			if (tmp->next)
+				ft_free_n_null((void **)&(tmp->next->file_name));
+			ft_free_n_null((void **)&(tmp->next));
+			tmp = tmp->prev;
+		}
+		ft_free_n_null((void **)&(tmp->file_name));
 	}
+	ft_free_n_null((void **)*e_redir);
 }
 
 int	count_tokens(t_token *token)
