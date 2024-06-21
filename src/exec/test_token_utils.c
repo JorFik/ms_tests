@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 13:44:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/20 17:14:41 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/21 17:59:27 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ void	free_exp_redir(t_exp_redir **e_redir)
 			ft_free_n_null((void **)&(tmp->next));
 			tmp = tmp->prev;
 		}
+		if (tmp->next)
+			ft_free_n_null((void **)&(tmp->next->file_name));
+		ft_free_n_null((void **)&(tmp->next));
 		ft_free_n_null((void **)&(tmp->file_name));
 	}
 	ft_free_n_null((void **)*e_redir);
