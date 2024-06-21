@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 18:12:56 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/17 13:44:17 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/21 13:49:46 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 void	leaks(void)
 {
 	run_leaks("Test exec");
+}
+
+int	create_last_exp_redir(t_exp_redir *e_redir)
+{
+	while (e_redir->next)
+		e_redir = e_redir->next;
+	e_redir->next = ft_calloc(sizeof(t_exp_redir), 1);
+	if (!e_redir->next)
+		return (1);
+	e_redir->next->prev = e_redir;
+	return (0);
 }
 
 #ifdef __APPLE__

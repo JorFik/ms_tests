@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:51:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/20 18:35:21 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/21 13:50:24 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void				free_cmds(t_cmd **cmd);
 // Test redir
 int					test_redir(t_cmd **cmd_input);
 void				free_exp_redir(t_exp_redir **exp_redir);
+int					create_last_exp_redir(t_exp_redir *exp_redir);
 
 // Token utils
 t_token				*create_token_head(const char *value, t_token_type type);
