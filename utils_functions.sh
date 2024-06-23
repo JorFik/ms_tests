@@ -55,7 +55,7 @@ function run_valgrind
 	if [[ "$(uname)" == "Linux" ]]
 	then
 		LEAKS=$(valgrind --leak-check=full --show-leak-kinds=all -s  ./$EXECUTABLE 2>&1 | grep "ERROR SUMMARY:" | awk '{print $4}')
-		if [[ $LEAKS -ne 0 ]]
+		if [[ $LEAKS != 0 ]]
 		then
 			valgrind --leak-check=full --show-leak-kinds=all -s ./$EXECUTABLE 2> $VALGRIND_LOG
 			echo -e "$BOLD_RED Memory leaks detected in test $TEST_NAME$DEFAULT"
