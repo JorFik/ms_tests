@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:51:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/21 13:50:24 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 16:52:06 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_expected_redir
 // Tested functions
 char				**transform_to_array(t_token *token);
 t_cmd				*divide_tokens(t_token *token);
-int					get_fd(t_cmd *cmd);
+int					get_fd(t_token *redir);
 char				*get_file_name(t_cmd *cmd);
 
 // Test transform to array

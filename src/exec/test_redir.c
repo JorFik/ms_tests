@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:43:09 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/24 16:44:05 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:01:58 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,8 @@ static t_exp_redir	*create_expectations(t_cmd **cmd_input)
 	return (exp_redir);
 }
 
-static int	check_fd(t_cmd *cmd_input, int test_num,
-		t_exp_redir *exp_redir)
+static int	check_fd(t_cmd *cmd_input, int test_num, t_exp_redir *exp_redir)
 {
-	const t_token	*head_redir = cmd_input->redirects;
 	const int		name_len = ft_strlen(exp_redir->file_name) + 1;
 	t_token			*cmd_redir;
 	int				result_fd;
@@ -100,14 +98,12 @@ static int	check_fd(t_cmd *cmd_input, int test_num,
 		exp_redir = exp_redir->next;
 	while (cmd_redir != NULL)
 	{
-		result_fd = get_fd(cmd_input);
+		result_fd = get_fd(cmd_redir);
 		if (result_fd != exp_redir->fd)
 			return (ft_printf(FD_ERROR, test_num, exp_redir->fd, result_fd), 1);
 		cmd_redir = cmd_redir->next->next;
-		cmd_input->redirects = cmd_redir;
 		exp_redir = exp_redir->next;
 	}
-	cmd_input->redirects = (t_token *)head_redir;
 	return (0);
 }
 
