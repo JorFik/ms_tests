@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:43:09 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/24 16:08:37 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 16:44:05 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,17 +87,16 @@ static t_exp_redir	*create_expectations(t_cmd **cmd_input)
 	return (exp_redir);
 }
 
-static int	check_fd_and_name(t_cmd *cmd_input, int test_num,
+static int	check_fd(t_cmd *cmd_input, int test_num,
 		t_exp_redir *exp_redir)
 {
-	int		result_fd;
-	char	*result_name;
-	t_token	*cmd_redir;
+	const t_token	*head_redir = cmd_input->redirects;
+	const int		name_len = ft_strlen(exp_redir->file_name) + 1;
+	t_token			*cmd_redir;
+	int				result_fd;
 
-	result_name = NULL;
 	cmd_redir = cmd_input->redirects;
-	while (cmd_redir && cmd_redir->next && ft_strncmp(cmd_redir->next->value,
-			exp_redir->file_name, ft_strlen(exp_redir->file_name) + 1))
+	while (ft_strncmp(cmd_redir->next->value, exp_redir->file_name, name_len))
 		exp_redir = exp_redir->next;
 	while (cmd_redir != NULL)
 	{
@@ -108,15 +107,15 @@ static int	check_fd_and_name(t_cmd *cmd_input, int test_num,
 		cmd_input->redirects = cmd_redir;
 		exp_redir = exp_redir->next;
 	}
-	return (ft_free_n_null((void **)&result_name), 0);
+	cmd_input->redirects = (t_token *)head_redir;
+	return (0);
 }
 
 int	test_redir(t_cmd **cmd_input)
 {
 	t_exp_redir *const	exp_redir = create_expectations(cmd_input);
-	t_token				*cmd_redir;
 	int					test_num;
-	t_cmd				*cmd_head;
+	t_cmd				*w_cmd;
 
 	if (!exp_redir)
 		return (1);
@@ -124,17 +123,13 @@ int	test_redir(t_cmd **cmd_input)
 	test_num = 0;
 	while (cmd_input[test_num] != NULL)
 	{
-		cmd_head = cmd_input[test_num];
-		while (cmd_input[test_num] && cmd_input[test_num]->redirects != NULL)
+		w_cmd = cmd_input[test_num];
+		while (w_cmd && w_cmd->redirects != NULL)
 		{
-			cmd_redir = cmd_input[test_num]->redirects;
-			if (check_fd_and_name(cmd_input[test_num], test_num,
-					&exp_redir[test_num]))
+			if (check_fd(w_cmd, test_num, &exp_redir[test_num]))
 				return (free_exp_redir((t_exp_redir **)&exp_redir), 1);
-			cmd_input[test_num]->redirects = cmd_redir;
-			cmd_input[test_num] = cmd_input[test_num]->next;
+			w_cmd = w_cmd->next;
 		}
-		cmd_input[test_num] = cmd_head;
 		ft_printf("\t\tTest %d passed\n", ++test_num);
 	}
 	return (free_exp_redir((t_exp_redir **)&exp_redir), 0);
