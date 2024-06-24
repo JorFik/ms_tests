@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:43:09 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/24 14:15:04 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:44:51 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ static int	check_fd_and_name(t_cmd *cmd_input, int test_num,
 
 	result_name = NULL;
 	cmd_redir = cmd_input->redirects;
-	while (ft_strncmp(cmd_redir->next->value, exp_redir->file_name,
-			ft_strlen(exp_redir->file_name) + 1))
+	while (cmd_redir && cmd_redir->next && ft_strncmp(cmd_redir->next->value,
+			exp_redir->file_name, ft_strlen(exp_redir->file_name) + 1))
 		exp_redir = exp_redir->next;
 	while (cmd_redir != NULL)
 	{
