@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:43:09 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/24 13:40:28 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:15:04 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,11 +125,11 @@ int	test_redir(t_cmd **cmd_input)
 	test_num = 0;
 	while (cmd_input[test_num] != NULL)
 	{
-		cmd_redir = cmd_input[test_num]->redirects;
-		redir_head = cmd_redir;
 		cmd_head = cmd_input[test_num];
 		while (cmd_redir != NULL && cmd_input[test_num] != NULL)
 		{
+			cmd_redir = cmd_input[test_num]->redirects;
+			redir_head = cmd_redir;
 			if (check_fd_and_name(cmd_input[test_num], test_num,
 					&exp_redir[test_num]))
 				return (free_exp_redir((t_exp_redir **)&exp_redir), 1);
@@ -137,9 +137,9 @@ int	test_redir(t_cmd **cmd_input)
 			cmd_input[test_num] = cmd_input[test_num]->next;
 			if (cmd_redir == NULL && cmd_input[test_num]->next != NULL)
 				cmd_redir = cmd_input[test_num]->next->redirects;
+			cmd_input[test_num] = cmd_head;
+			cmd_input[test_num]->redirects = redir_head;
 		}
-		cmd_input[test_num] = cmd_head;
-		cmd_input[test_num]->redirects = redir_head;
 		ft_printf("\t\tTest %d passed\n", ++test_num);
 	}
 	return (free_exp_redir((t_exp_redir **)&exp_redir), 0);
