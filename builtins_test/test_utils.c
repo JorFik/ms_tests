@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:28:50 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/01 18:27:10 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 20:32:26 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ pid_t	start_minishell_builtins(int *pipe_write)
 		dup2(fd_out, STDOUT_FILENO);
 		ft_close(&fd_out);
 		setup_in_pipe(pipe_in);
-		ft_execve((char *[]){"./minishell_builtins", NULL}, NULL, NULL);
+		ft_execve((char *[]){"./minishell_builtins", NULL});
 	}
 	ft_close(&fd_out);
 	ft_close(&pipe_in[PIPE_FD_READ]);
@@ -92,7 +92,7 @@ void	compile_minishell(void)
 		exit(EXIT_FAILURE);
 	if (!pid)
 		ft_execve((char *[]){check_for_cmd("make"), "-s", "minishell_builtins",
-			"COLOR=0", NULL}, NULL, NULL);
+			"COLOR=0", NULL});
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status) && WEXITSTATUS(status))
 		exit(EXIT_FAILURE);
