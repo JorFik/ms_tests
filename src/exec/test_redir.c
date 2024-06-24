@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:43:09 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/23 16:35:46 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/24 13:40:28 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,6 @@ static int	check_fd_and_name(t_cmd *cmd_input, int test_num,
 		cmd_input->redirects = cmd_redir;
 		exp_redir = exp_redir->next;
 	}
-	// result_name = get_file_name(cmd_input);
-	// if (ft_strncmp(result_name, exp_redir->file_name,
-	// 		ft_strlen(exp_redir->file_name) + 1))
-	// 	return (ft_printf(FILE_ERROR, test_num, exp_redir->file_name,
-	// 			result_name), ft_free_n_null((void **)&result_name), 1);
 	return (ft_free_n_null((void **)&result_name), 0);
 }
 
