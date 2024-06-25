@@ -8,7 +8,11 @@ LDFLAGS = -L$(LIBFT_PATH) -lft
 
 HEADERS_DIR = includes/ ../includes/ $(LIBFT_PATH)/includes/
 INCLUDES = $(addprefix -I, $(HEADERS_DIR))
-all: exec_test
+ifeq ($(DEBUG), 1)
+re: fclean all
+.PHONY: re
+endif
+all: exec_test exec_integration_test
 .PHONY: all
 ################################################################################
 # Source files
@@ -20,19 +24,29 @@ _EXEC_TEST_SRC = test_transform_to_array.c main.c test_token_utils.c\
 	test_redir.c
 EXEC_TEST_SRC = $(addprefix src/exec/, $(_EXEC_TEST_SRC))
 
+_EXEC_INTEGRATION_TEST_SRC = test_exec_integration.c
+EXEC_INTEGRATION_TEST_SRC = $(addprefix src/, $(_EXEC_INTEGRATION_TEST_SRC))
+
 
 ################################################################################
 # Creating binaries
 ################################################################################
 EXEC_TEST_OBJ = $(EXEC_TEST_SRC:src/exec/%.c=bin/exec/%.o)
+EXEC_INTEGRATION_TEST_OBJ = $(EXEC_INTEGRATION_TEST_SRC:src/%.c=bin/%.o)\
+	$(filter-out bin/exec/main.o, $(EXEC_TEST_OBJ))
 
 bin/exec:
 	@mkdir -p bin/exec
 
+bin/:
+	@mkdir -p bin
+
 bin/exec%.o : src/exec/%.c  $(EXEC_TEST_DEPS) | bin/exec
+	@printf "%-100s\r" "	Compiling $@"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-bin/%.o : src/%.c  $(EXEC_TEST_DEPS) | bin
+bin/%.o : src/%.c  $(EXEC_TEST_DEPS) | bin/
+	@printf "%-100s\r" "	Compiling $@"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Tested binaries
@@ -63,6 +77,9 @@ $(LIBFT_PATH)/libft.a:
 exec_test: $(EXEC_TEST_OBJ) $(TESTED_OBJ_PATH) $(LIBFT_PATH)/libft.a
 	@$(CC) -o $@ $(EXEC_TEST_OBJ) $(TESTED_OBJ_PATH) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
 
+exec_integration_test: $(EXEC_INTEGRATION_TEST_OBJ) $(TESTED_OBJ_PATH) $(LIBFT_PATH)/libft.a
+	@$(CC) -o $@ $(EXEC_INTEGRATION_TEST_OBJ) $(TESTED_OBJ_PATH) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
+
 clean:
 	@$(RM) bin/*
 	@$(RM) ../bin/*
@@ -70,10 +87,9 @@ clean:
 
 fclean: clean
 	@$(RM) exec_test
+	@$(RM) exec_integration_test
 .PHONY: fclean
 
-re: fclean all
-.PHONY: re
 
 ################################################################################
 # Debug

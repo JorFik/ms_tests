@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 12:51:36 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/24 16:52:06 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:49:34 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char				**transform_to_array(t_token *token);
 t_cmd				*divide_tokens(t_token *token);
 int					get_fd(t_token *redir);
 char				*get_file_name(t_cmd *cmd);
+int					exec(t_token *token);
 
 // Test transform to array
 t_cmd				**test_transform_to_array(t_cmd **cmd_input);
