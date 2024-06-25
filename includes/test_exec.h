@@ -63,7 +63,6 @@ int					create_last_exp_redir(t_exp_redir *exp_redir);
 t_token				*create_token_head(const char *value, t_token_type type);
 t_token				*create_next_token(t_token *token, const char *value,
 						t_token_type type);
-void				restart_token(t_token **token);
 
 // Utils
 void				leaks(void);

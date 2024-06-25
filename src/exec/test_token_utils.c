@@ -6,17 +6,11 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 13:44:16 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/24 13:43:14 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:50:57 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test_exec.h"
-
-void	restart_token(t_token **token)
-{
-	while (*token != NULL && (*token)->prev != NULL)
-		*token = (*token)->prev;
-}
 
 void	free_exp_redir(t_exp_redir **e_redir)
 {
@@ -42,19 +36,6 @@ void	free_exp_redir(t_exp_redir **e_redir)
 		ft_free_n_null((void **)&(tmp->file_name));
 	}
 	ft_free_n_null((void **)e_redir);
-}
-
-int	count_tokens(t_token *token)
-{
-	int	count;
-
-	count = 0;
-	while (token != NULL)
-	{
-		count++;
-		token = token->next;
-	}
-	return (count);
 }
 
 t_token	*create_next_token(t_token *token, const char *value,

@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:15:39 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/20 15:51:22 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:58:35 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ void	set_cmd_pipe(t_cmd **cmd)
 	(*cmd)->pipe[0] = PIPING_OUT;
 	(*cmd)->next = ft_calloc(1, sizeof(t_cmd));
 	(*cmd)->next->pipe[0] = PIPING_IN;
-	restart_token(&(*cmd)->strs);
-	restart_token(&(*cmd)->redirects);
+	while ((*cmd)->strs && (*cmd)->strs->prev != NULL)
+		(*cmd)->strs = (*cmd)->strs->prev;
+	while ((*cmd)->redirects && (*cmd)->redirects->prev != NULL)
+		(*cmd)->redirects = (*cmd)->redirects->prev;
 	(*cmd) = (*cmd)->next;
 }
 
@@ -82,8 +84,10 @@ static t_cmd	*create_cmd_per_test(t_cmd *cmd, const char **cases,
 		if (type[i] == PIPE)
 			set_cmd_pipe(&tmp);
 	}
-	restart_token(&tmp->strs);
-	restart_token(&tmp->redirects);
+	while (tmp->strs && tmp->strs->prev != NULL)
+		tmp->strs = tmp->strs->prev;
+	while (tmp->redirects && tmp->redirects->prev != NULL)
+		tmp->redirects = tmp->redirects->prev;
 	return (cmd);
 }
 
