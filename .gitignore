@@ -7,3 +7,4 @@ bin/
 *.log
 # test executable
 exec_test
+exec_integration_test
