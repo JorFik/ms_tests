@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 19:00:56 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/20 16:13:24 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:50:40 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,34 +36,6 @@ static int	init_environ(void)
 	}
 	environ = new_env;
 	return (0);
-}
-
-const char	***declare_test_strings(void)
-{
-	static const char	*case_1[2] = {"echo", NULL};
-	static const char	*case_2[4] = {"echo", "Hello", "World", NULL};
-	static const char	*case_3[5] = {"echo", "Hello   World", "|", "cat",
-		NULL};
-	static const char	*case_4[13] = {"echo", "Hello", ">", " test_file1",
-		"2>", "test_file2", "|", "cat", "<<", "EOF3", ">>", "test_file4", NULL};
-	static const char	**test_cases[TEST_COUNT + 1] = {case_1, case_2, case_3,
-		case_4, NULL};
-
-	return (test_cases);
-}
-
-const t_token_type	**declare_test_token_type(void)
-{
-	static const t_token_type	case_1[2] = {STRING, -1};
-	static const t_token_type	case_2[4] = {STRING, STRING, STRING, -1};
-	static const t_token_type	case_3[5] = {STRING, STRING, PIPE, STRING, -1};
-	static const t_token_type	case_4[13] = {STRING, STRING, REDIR_TO, STRING,
-		REDIR_TO, STRING, PIPE, STRING, HERE_DOC, STRING, APPEND_TO, STRING,
-		-1};
-	static const t_token_type	*tokens[TEST_COUNT] = {case_1, case_2, case_3,
-		case_4};
-
-	return (tokens);
 }
 
 static const t_token	**create_tokens(void)
