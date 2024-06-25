@@ -73,16 +73,13 @@ static t_cmd	*create_cmd_per_test(t_cmd *cmd, const char **cases,
 	{
 		if (type[i] == STRING)
 			tmp->strs = create_next_token(tmp->strs, cases[i], type[i]);
-		else if (type[i] > STRING && type[i] < PIPE)
-		{
-			tmp->redirects = create_next_token(tmp->redirects, cases[i],
-					type[i]);
-			i++;
-			tmp->redirects = create_next_token(tmp->redirects, cases[i],
-					type[i]);
-		}
 		if (type[i] == PIPE)
 			set_cmd_pipe(&tmp);
+		if (type[i] == PIPE || type[i] == STRING)
+			continue ;
+		tmp->redirects = create_next_token(tmp->redirects, cases[i], type[i]);
+		i++;
+		tmp->redirects = create_next_token(tmp->redirects, cases[i], type[i]);
 	}
 	while (tmp->strs && tmp->strs->prev != NULL)
 		tmp->strs = tmp->strs->prev;
