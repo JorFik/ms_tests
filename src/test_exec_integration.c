@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:58:57 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/25 12:00:22 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:24:17 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,5 @@ int	main(void)
 	while (input_token[0]->prev)
 		input_token[0] = input_token[0]->prev;
 	exec(input_token[0]);
-	return (0);
+	return (clean_up(), EXIT_SUCCESS);
 }
