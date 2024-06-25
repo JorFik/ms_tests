@@ -6,7 +6,7 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:43:09 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/24 17:01:58 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:59:45 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,6 @@ int	test_redir(t_cmd **cmd_input)
 		}
 		ft_printf("\t\tTest %d passed\n", ++test_num);
 	}
+	ft_printf("\tAll tests redir passed\n");
 	return (free_exp_redir((t_exp_redir **)&exp_redir), 0);
 }
