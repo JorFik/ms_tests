@@ -58,7 +58,6 @@ static int	extract_file_name(t_cmd *cmd, t_exp_redir *exp_redir)
 	return (0);
 }
 
-// TODO Addd prev to t_exp_redir
 static t_exp_redir	*create_expectations(t_cmd **cmd_input)
 {
 	t_exp_redir	*exp_redir;

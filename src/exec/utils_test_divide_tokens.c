@@ -103,32 +103,3 @@ const t_cmd	**create_all_expected_cmds(void)
 	}
 	return ((const t_cmd **)cmd);
 }
-
-// void	print_cmd(const t_cmd **cmd)
-// {
-// 	t_cmd	*tmp;
-// 	int		i;
-
-// 	i = -1;
-// 	while (++i < TEST_COUNT)
-// 	{
-// 		tmp = (t_cmd *)cmd[i];
-// 		while (tmp != NULL)
-// 		{
-// 			ft_printf("Cmd[%d]->argv: ", i);
-// 			while (tmp->strs != NULL)
-// 			{
-// 				ft_printf("<%s> ", tmp->strs->value);
-// 				tmp->strs = tmp->strs->next;
-// 			}
-// 			ft_printf("\nCmd->redirects: ");
-// 			while (tmp->redirects != NULL)
-// 			{
-// 				ft_printf("<%s> ", tmp->redirects->value);
-// 				tmp->redirects = tmp->redirects->next;
-// 			}
-// 			ft_printf("\n");
-// 			tmp = tmp->next;
-// 		}
-// 	}
-// }
