@@ -47,6 +47,10 @@ int	main(void)
 		perror("minishell: Error initializing environment");
 		return (EXIT_FAILURE);
 	}
+	unlink("test_file1");
+	unlink("test_file2");
+	unlink(".here_doc.tmp");
+	unlink("test_file4");
 	input_token[0] = NULL;
 	input_token[0] = create_next_token(input_token[0], "echo", STRING);
 	input_token[0] = create_next_token(input_token[0], "Hello", STRING);
