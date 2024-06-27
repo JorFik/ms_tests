@@ -1,5 +1,8 @@
 # Random
 .DS_Store
+# Test files
+test_file*
+*.tmp
 # Object files
 bin/
 *.o
