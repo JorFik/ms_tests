@@ -50,7 +50,7 @@ bin/%.o : src/%.c  $(EXEC_TEST_DEPS) | bin/
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Tested binaries
-_TESTED_EXEC_OBJ += exec.o token_utils.o pipe_utils.o exec_utils.o
+_TESTED_EXEC_OBJ += exec.o token_utils.o pipe_utils.o exec_utils.o heredoc.o
 TESTED_EXEC_OBJ = $(addprefix exec/, $(_TESTED_EXEC_OBJ))
 
 _TESTED_UTILS_OBJ = exit_error.o
