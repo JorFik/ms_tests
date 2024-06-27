@@ -31,8 +31,8 @@ static pid_t	send_commands_to_minishell(int *status)
 	ft_putendl_fd("env", write_minishell);
 	ft_check_minishell_builtins_leaks();
 	ft_putendl_fd("exit -1", write_minishell);
-	usleep(100000);
-	kill(pid, SIGSTOP);
+	usleep(TIMEOUT);
+	kill(pid, SIGKILL);
 	waitpid(pid, status, WUNTRACED);
 	ft_close(&write_minishell);
 	return (pid);

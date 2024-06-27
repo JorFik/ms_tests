@@ -26,6 +26,10 @@
 # ifndef DEFAULT
 #  define DEFAULT "\x1b[0m"
 # endif
+
+# ifndef TIMEOUT
+#  define TIMEOUT 2000000
+# endif
 ////////////////////////////		UTILITIES		////////////////////////////
 void	test_1_builtins(void);
 void	print_feedback(char *test, char *output, char *expected);
