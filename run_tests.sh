@@ -80,7 +80,7 @@ function run_exec_test
 	local LOG_PATH="tests/logs/results_exec.log"
 
 	make -C tests 2>> $LOG_PATH 1> /dev/null
-	for exec in "$TEST_EXEC"; do
+	for exec in "${TEST_EXEC[@]}"; do
 		check_compilation $exec $LOG_PATH
 		if [[ $? -ne 0 ]]; then
 			ERRNO=$(($ERRNO+1))
