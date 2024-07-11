@@ -6,43 +6,29 @@
 /*   By: JFikents <Jfikents@student.42Heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:58:57 by JFikents          #+#    #+#             */
-/*   Updated: 2024/06/25 12:24:17 by JFikents         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:51:28 by JFikents         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test_exec.h"
 
-static int	init_environ(void)
+static int	init_minishell(void)
 {
 	extern char	**environ;
 	extern int	errno;
-	int			env_var_count;
-	char		**new_env;
 
 	errno = 0;
-	env_var_count = 0;
-	while (environ[env_var_count])
-		env_var_count++;
-	new_env = ft_calloc(env_var_count + 1, sizeof(char *));
-	if (!new_env)
+	environ = dup_environ();
+	if (environ == NULL)
 		return (EXIT_FAILURE);
-	env_var_count = 0;
-	while (environ[env_var_count])
-	{
-		new_env[env_var_count] = ft_strdup(environ[env_var_count]);
-		if (!new_env[env_var_count])
-			return (ft_free_2d_array((void ***)&new_env, -1), EXIT_FAILURE);
-		env_var_count++;
-	}
-	environ = new_env;
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 int	main(void)
 {
 	t_token		*input_token[1];
 
-	if (init_environ())
+	if (init_minishell())
 	{
 		perror("minishell: Error initializing environment");
 		return (EXIT_FAILURE);

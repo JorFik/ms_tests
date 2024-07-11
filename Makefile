@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -Wunreachable-code
 
 LIB_DIR = ../lib
 LIBFT_PATH = $(LIB_DIR)/libft
-LDFLAGS = -L$(LIBFT_PATH) -lft
+LDFLAGS = -L$(LIBFT_PATH) -lft -lreadline
 
 HEADERS_DIR = includes/ ../includes/ $(LIBFT_PATH)/includes/
 INCLUDES = $(addprefix -I, $(HEADERS_DIR))
@@ -50,21 +50,21 @@ bin/%.o : src/%.c  $(EXEC_TEST_DEPS) | bin/
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Tested binaries
-_TESTED_EXEC_OBJ += exec.o token_utils.o pipe_utils.o exec_utils.o heredoc.o
-TESTED_EXEC_OBJ = $(addprefix exec/, $(_TESTED_EXEC_OBJ))
+TESTED_EXEC_OBJ = exec/*
 
-_TESTED_UTILS_OBJ = exit_error.o
-TESTED_UTILS_OBJ = $(addprefix utils/, $(_TESTED_UTILS_OBJ))
+TESTED_UTILS_OBJ = utils/*
 
-_TESTED_PARSER_OBJ = parser_utils.o
-TESTED_PARSER_OBJ = $(addprefix parser/, $(_TESTED_PARSER_OBJ))
+TESTED_PARSER_OBJ = parser/*
 
-_TESTED_OBJ = $(TESTED_EXEC_OBJ) $(TESTED_UTILS_OBJ) $(TESTED_PARSER_OBJ)
-TESTED_OBJ = $(addprefix bin/, $(_TESTED_OBJ))
-TESTED_OBJ_PATH += $(addprefix ../, $(TESTED_OBJ))
+TESTED_BUILTINS_OBJ = builtins/*
+
+TESTED_OBJ = $(TESTED_EXEC_OBJ) $(TESTED_UTILS_OBJ) $(TESTED_PARSER_OBJ)\
+	$(TESTED_BUILTINS_OBJ)
+TESTED_OBJ_PATH += $(addprefix ../bin/, $(TESTED_OBJ))
 
 $(TESTED_OBJ_PATH):
-	@$(MAKE) -C ../ $(DEBUG_FLAG) $(TESTED_OBJ) > /dev/null
+	@$(MAKE) -C ../ $(DEBUG_FLAG) > /dev/null
+	@echo
 
 
 ################################################################################
@@ -76,9 +76,11 @@ $(LIBFT_PATH)/libft.a:
 
 exec_test: $(EXEC_TEST_OBJ) $(TESTED_OBJ_PATH) $(LIBFT_PATH)/libft.a
 	@$(CC) -o $@ $(EXEC_TEST_OBJ) $(TESTED_OBJ_PATH) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
+	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
 
 exec_integration_test: $(EXEC_INTEGRATION_TEST_OBJ) $(TESTED_OBJ_PATH) $(LIBFT_PATH)/libft.a
 	@$(CC) -o $@ $(EXEC_INTEGRATION_TEST_OBJ) $(TESTED_OBJ_PATH) $(CFLAGS) $(INCLUDES) $(LDFLAGS)
+	@printf "\033[1;33m %-100s \033[0m\n" "$@ is ready to be use."
 
 clean:
 	@$(RM) bin/*
@@ -90,6 +92,8 @@ fclean: clean
 	@$(RM) exec_integration_test
 .PHONY: fclean
 
+re: fclean all
+.PHONY: re
 
 ################################################################################
 # Debug
